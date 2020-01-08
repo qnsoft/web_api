@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
+    <title>卡管理</title>
+    <link href="css/Aui/api.css" rel="stylesheet" />
+    <link href="css/Aui/aui.2.0.css" rel="stylesheet" />
+    <link href="css/credit/css/reset.css" rel="stylesheet" />
+    <link href="css/credit/css/mui.min.css" rel="stylesheet" />
+    <link href="css/credit/css/app.css" rel="stylesheet" />
+    <link href="css/app.css" rel="stylesheet" />
+    <style type="text/css">
+        .vue-pull-to-wrapper[data-v-12abd9fb] {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -webkit-flex-direction: column;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .scroll-container[data-v-12abd9fb] {
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .vue-pull-to-wrapper .action-block[data-v-12abd9fb] {
+            position: relative;
+            width: 100%;
+        }
+
+        .default-text[data-v-12abd9fb] {
+            height: 100%;
+            line-height: 50px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <input id="user_id" type="hidden" />
+    <header class="aui-bar aui-bar-nav">
+        <a class="aui-pull-left" tapmode onclick="backOrClose()">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </a>
+        <div class="aui-title">信用卡</div>
+        <a class="aui-pull-right" tapmode onclick="btnCreditList()">
+            <div class="aui-btn aui-btn-outlined">更新信用卡</div>
+        </a>
+    </header>
+    <div id="app" class="aui-content aui-padded-t-80">
+        <div class="child-view">
+            <div data-v-12abd9fb="" class="vue-pull-to-wrapper"
+                style="height: 100%; transform: translate3d(0px, 0px, 0px); padding: 44px 0px;">
+                <div data-v-12abd9fb="" class="scroll-container">
+                    <div data-v-12abd9fb="" id="card-no">
+                        <div data-v-12abd9fb="" class="creditcard404" onclick="btnAddCard()"><img data-v-12abd9fb=""
+                                src="css/credit/images/card404@3x.47359e4.png"></div>
+                        <div data-v-12abd9fb="" class="creditcard404_title">
+                            <div data-v-12abd9fb="" class="creditcard404_title1 text_color_0">添加信用卡</div>
+                            <div data-v-12abd9fb="" class="creditcard404_title12 text_color_2">即可享受安全快捷的移动支付体验</div>
+                        </div>
+                    </div>
+                    <div data-v-12abd9fb="" id="card-template" style="margin-top:1rem;">
+
+                    </div>
+                </div>
+            </div>
+            <div class="creditcard_foods title_background2">
+                <span class="creditcard_img">
+                    <img src="images/bank/addBank.png" />
+                </span>
+                <span class="text_color_2">
+                    <div onclick="btnLearn()">
+                        添加银行卡
+                    </div>
+                </span>
+            </div>
+        </div>
+        <script src="script/api.js"></script>
+        <script src="script/application.js"></script>
+        <link href="script/jquery/toast.css" rel="stylesheet" />
+        <script src="script/jquery/jquery-1.9.2.min.js"></script>
+        <script src="script/artTemplate/doT.min.js"></script>
+        <script src="script/jquery/toast.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                try {
+                    var _user_info = localStorage.getItem("UserInfo");
+                    if (_user_info == null) {
+                        $.myToast("请先登录再操作!");
+                        window.open("userlogin.html", "_self");
+                    } else {
+                        $("#user_id").val(JSON.parse(_user_info).id);
+                        //初始化绑定
+                        initCardList();
+                    }
+                } catch (e) {
+                    //alert(e.name + ": " + e.message);
+                    window.open("userlogin.html", "_self");
+                }
+            });
+        </script>
+        <script id="card-template-list" type="text/x-dot-template">
+            {{for(var i = 0; i<it.length;i++){}}
+            <div data-v-12abd9fb="" class="creditcard_content">
+                <li data-v-12abd9fb="" class="creditcard_item  text_color_1">
+                    <div data-v-12abd9fb="" class="creditcard_type">
+                        <div data-v-12abd9fb="" style="display: none;" class="creditcard_type_img creditcard_type_left">
+                            <img data-v-12abd9fb="" src="{{=it[i].bankLogo}}" class="mui-media-object" />
+                        </div>
+                        <div data-v-12abd9fb="" class="creditcard_type_right spill">
+                            {{=it[i].BankName}}({{? it[i].CardType==1}}储蓄卡{{??}}信用卡{{?}})
+                        </div>
+                        <div data-v-12abd9fb="" onclick="btnUnBindCard('{{=it[i].BankCardNumber}}')" class="creditcard_name_right item_background">
+                            <a data-v-12abd9fb="" style="color: rgb(254, 122, 51);">
+                                解绑
+                            </a>
+                        </div>
+                    </div>
+                    <div data-v-12abd9fb="" class="creditcard_no">
+                        ****  ****  **** **** {{=it[i].BankCardNumber.substr(it[i].BankCardNumber.length-4)}}
+                    </div>
+                    {{? it[i].cardType==1}}
+                    <div data-v-12abd9fb="" class="creditcard_date text_color_1">
+                        <div data-v-12abd9fb="" class="creditcard_billdate">账单日{{=it[i].AccoutDay}}日</div>
+                        <div data-v-12abd9fb="" class="creditcard_repaymentdata">还款日{{=it[i].RepaymentDay}}日</div>
+                    </div>
+                    {{?}}
+                    <div data-v-12abd9fb="" class="creditcard_order ">
+                        {{? it[i].cardType==1}}
+                            <a data-v-12abd9fb="" class="text_color_1" onclick="btnOpenWindow('creditPhone',{{=it[i].id}})">修改手机号</a>
+                            <a data-v-12abd9fb="" style="display:none;" class="text_color_1 creditcard_order_right" onclick="openWindow('makeList','makeList.html',{{=it[i].id}})">预约还款</a>
+                        {{? it[i].cardType==1}}
+                        <div data-v-12abd9fb="" class="creditcard_order_up" onclick="btnCreditInfo({{=it[i].id}})">修改账单日</div>
+                        {{?}}
+                        {{?}}
+                    </div>
+                    {{? it[i].CardType==2}}
+                     <div data-v-12abd9fb="" class="creditcard_order ">
+                     
+                           {{?it[i].Delflag==1}}
+                           <a data-v-12abd9fb="" class="text_color_1">已签约</a>
+                           <div data-v-12abd9fb="" style="display:none;" class="creditcard_order_up">修改信息</div>
+                           {{??}}
+                           <a data-v-12abd9fb="" class="text_color_1" onclick="btnSubmit_qianyue({{=it[i].BankCardNumber}})">签约此卡</a>
+                           {{?}}
+                        </div>
+                    {{??}}
+                    <div data-v-12abd9fb="" class="creditcard_order ">
+                           <a data-v-12abd9fb="" class="text_color_1" onclick="btnSubmit_qianyue({{=it[i].BankCardNumber}})">已绑定</a>
+                           <div data-v-12abd9fb="" style="display:none;" class="creditcard_order_up">修改信息</div>
+                       </div>
+                   {{?}}
+                   
+                </li>
+            </div>
+            {{}}}
+        </script>
+        <script type="text/javascript">
+            //  var deviceInfo = "";
+            //  apiready = function () {
+            //     deviceInfo = { uid:1289};
+            //     initCardList();
+            //  };
+            //  window.onload = apiready;
+            function btnCreditInfo(objId) {
+                var cmdUrl = "/webchat/creditInfo" + "?id=" + objId;
+                window.open(cmdUrl, "_self");
+            }
+            function btnOpenWindow(objUrl, objId) {
+                var cmdUrl = "/webchat/" + objUrl + "?id=" + objId;
+                window.open(cmdUrl, "_self");
+            }
+            //初始化绑定
+            function initCardList() {
+                var objData = {
+                    "UserId": $("#user_id").val(),
+                    // type: -1
+                };
+
+                var objModel = {
+                    Url: "http://testapi.qinengsoft.com/OnlinePay/kft/Bind_Card_List",
+                    Data: objData,
+                    // File: {},
+                    // Headers: { userId: deviceInfo.uid },
+                    Method: "Post"
+                };
+                ajaxUrl(objModel, CardSucc);
+            }
+            //回调函数
+            function CardSucc(ret, err) {
+                console.log(ret);
+                // if (ret.Success) {
+                var objList = ret;
+                if (objList.length > 0) {
+                    dotBindAppend("card-template-list", objList, "card-template");
+                    $api.css($api.byId("card-no"), "display:none");
+                }
+                // }
+            }
+            //绑卡界面1，选择银行
+            function btnLearn() {
+                window.open("bindIndex.html", "_self");
+            }
+            //添加信用卡
+            function btnAddCard() {
+                window.open("/webchat/creditLearn2", "_self");
+            }
+            //解绑操作
+            function unBindCard(objId) {
+
+                var objModel = {
+                    Url: "http://testapi.qinengsoft.com/api/xyk/Bind_Card_List_Cancel",
+                    Data: {
+                        UserId: $("#user_id").val(),
+                        BankcardNo: objId,
+                    },
+                    // File: {},
+                    //  Headers: { userId: deviceInfo.uid },
+                    Method: "Post"
+                };
+                ajaxUrl(objModel, function (ret, err) {
+                    console.log(ret);
+                    // debugger
+                    if (ret.code == 1) {
+                        toast("解绑成功！");
+                        location.reload();
+                    }
+                });
+                /*
+                var objData = {
+                    memberId: deviceInfo.uid,
+                    Id: objId
+                };
+                var objModel = {
+                    Url: $api.CreditUnBind,
+                    Data: objData,
+                    File: {},
+                    Headers: { userId: deviceInfo.uid },
+                    Method: "Post"
+                };
+                ajaxUrl(objModel, function (ret, err) {
+                    $api.html($api.byId("card-template"), "");
+                    initCardList();
+                    alert("解绑成功");
+                });
+                */
+            }
+            function btnUnBindCard(objId) {
+                if (confirm("确定要解绑该卡吗?") == true) {
+                    unBindCard(objId);
+                }
+            }
+            function btnCreditList() {
+                window.location.reload();
+                /*
+                var objData = {
+                    memberId: deviceInfo.uid
+                };
+                var objModel = {
+                    Url: $api.CreditUpdate,
+                    Data: objData,
+                    File: {},
+                    Headers: { userId: deviceInfo.uid },
+                    Method: "Post"
+                };
+                ajaxUrl(objModel, function (ret, err) {
+                    console.log(JSON.stringify(ret));
+                    if (ret.Success) {
+                        $api.html($api.byId("card-template"), "");
+                        initCardList();
+                        alert("更新成功");
+                    }
+                });
+                */
+            }
+
+            //签约此卡跳转到签约页面
+            function btnSubmit_qianyue(objId) {
+                window.open("AgreeKft.html?CreditCard=" + objId + "&user_id=" + $("#user_id").val(), "_self");
+            }
+            //签约此卡跳转到签约页面
+            function btnSubmit_qianyue_small(objId) {
+                window.open("AgreeKftSmall.html?CreditCard=" + objId + "&user_id=" + $("#user_id").val(), "_self");
+            }
+            function backOrClose(){
+            window.history.go(-1)
+        }
+        </script>
+</body>
+
+</html>

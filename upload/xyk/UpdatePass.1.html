@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>title</title>
+    <link href="css/Aui/api.css" rel="stylesheet" />
+    <link href="css/style/header_foot.css" rel="stylesheet" />
+    <link href="css/style/login.css" rel="stylesheet" />
+    <style>
+        body {
+        }
+    </style>
+</head>
+<body>
+    <header id="header" class="header active">
+        <div class="back" onclick="backOrClose()">
+            <i class="iconfont fontcolor4 f20">&#xe60c;</i>
+        </div>
+        <div class="f20 c_title">修改密码</div>
+    </header>
+    <div id="main" class="flex-con">
+        <div class="registers">
+            <div class="register-input-text register-input-c1" style="display:none">
+                <input id="txtUserName" type="text" placeholder="请输入手机号">
+            </div>
+            <div class="register-input-text register-input-c2" style="display:none">
+                <input id="smsCaptcha" type="text" placeholder="验证码">
+                <input class="register_hq" type="button" id="btnSendSms" onclick="btnSendSMS()" value="发送" />
+                <input type="hidden" value="0" id="mark" />
+            </div>
+            <div class="register-input-text register-input-c1">
+                <input id="txtUserPass" type="password" placeholder="请输入新密码">
+            </div>
+            <div class="register-input-text register-input-c1">
+                    <input id="txtUserPass" type="password" placeholder="请再次输入新密码">
+                </div>
+            <div class="tongyi_xieyi">
+                <div class="wap_btn" onclick="btnForget()">提 交</div>
+            </div>
+        </div>
+
+</body>
+<script src="script/jquery/jquery-1.9.2.min.js"></script>
+<script src="script/api.js"></script>
+<script src="script/application.js"></script>
+<link href="script/myAlert/myAlert.min.css" rel="stylesheet" />
+<script src="script/myAlert/myAlert.min.js"></script>
+<script type="text/javascript">
+    apiready = function () {
+    };
+    window.onload = apiready;
+    //计时器,用于修改发送效验码按钮的状态
+    function setI() {
+        var mark = parseInt($("#mark").val());
+        if (mark != 0) {
+            var s = mark - 1;
+            $("#btnSendSms").val("发送成功(" + s + ")");
+            $("#mark").val(s);
+        } else {
+            $("#mark").val("0");
+            $("#btnSendSms").removeAttr("disabled");
+            $("#btnSendSms").val("重新获取");
+        }
+    }
+    function btnSendSMS() {
+        var _telePhone = $("#txtUserName").val();
+        if (_telePhone == "") {
+            toast("请输入手机号"); return;
+        }
+        var cmdUrl = $api.SendSMSForget.format(_telePhone);
+        var mark = parseInt($("#mark").val());
+        $("#btnSendSms").val("发送中...");
+        var objData = {
+        };
+        var objModel = {
+            Url: cmdUrl,
+            Data: objData,
+            File: {},
+            Method: "Get",
+            Headers: {}
+        };
+        ajaxUrl(objModel, function (ret, err) {
+            //发送成功
+            if (ret.Success) {
+                $("#btnSendSms").val("发送成功");
+                $("#btnSendSms").attr("disabled", "disabled");
+            }
+            else {
+                $.myToast(ret.Info);
+                $("#btnSendSms").val("获取失败");
+            }
+        });
+    }
+    function btnForget() {
+        var _userName = $api.val($api.byId("txtUserName"));
+        var _userPass = $api.val($api.byId("txtUserPass"));
+        var _userCaptcha = $api.val($api.byId("smsCaptcha"));
+        if (_userName == "" || _userCaptcha == "" || _userPass == "") {
+            $.myToast("请完善信息"); return;
+        }
+        var objData = {
+            UserName: _userName,
+            PassWord: _userPass,
+            smsCaptcha: _userCaptcha
+        };
+        var objModel = {
+            Url: $api.User_Forget,
+            Data: objData,
+            File: {},
+            Method: "Post",
+            Headers: {}
+        };
+        ajaxUrl(objModel, function (ret, err) {
+            $.myToast(ret.Info);
+        });
+    }
+    function backOrClose(){
+            window.history.go(-1)
+        }
+</script>
+</html>

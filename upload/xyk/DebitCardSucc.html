@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="author" content="johnye">
+    <meta name="copyright" content="Copyright (c) 2002-2018 helloworld.">
+    <meta name="description" content="Hello World">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>处理中</title>
+    <link type="text/css" rel="stylesheet" href="xinyongka/css/api.css">
+    <link type="text/css" rel="stylesheet" href="xinyongka/css/aui.css">
+    <link type="text/css" rel="stylesheet" href="xinyongka/css/style.css">
+    <script src="script/jquery/jquery-1.9.2.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="back" onclick="backOrClose()"><a href="#"><img src="xinyongka/images/jiantou.png"></a></div>
+        <div class="titles">转出</div>
+    </div>
+    <!----header the end------>
+
+    <div id="main" class="flex-con">
+
+        <div class="zc_con">
+            <dl>发起转出申请</dl>
+            <dl>
+                <h3>处理中</h3>
+                <p id="txtContent"></p>
+            </dl>
+            <dl>到账成功</dl>
+
+            <div class="foot_zhuanchu">
+                <dl><span class="lf">转出金额</span><span class="rt mon_nums" id="txtMoney">¥</span></dl>
+                <dl><span class="lf">到账账户</span><span class="rt mon_nums" id="txtCard"></span></dl>
+            </div>
+
+        </div>
+
+
+        <div class="aui-content aui-margin-t-10">
+            <div class="aui-btn aui-btn-block aui-btn-danger" onclick="btnSubmit()">返回首页</div>
+        </div>
+
+
+
+    </div>
+    <!-----main the end---->
+    <!--以下是要显示到页面的参数-->
+    <input id="user_id" type="hidden" />
+    <div id="footer">
+        <ul id="footer_list">
+                <li class="list_li  ">
+                        <a href="index.html" class="text"><img src="xinyongka/images/foot_m_icon1.png"><span>首页</span></a>
+                    </li>
+                    <li class="list_li  " >
+                        <a href="creditList.html" class="text"><img src="xinyongka/images/foot_m_icon2.png"><span>智能还款</span></a>
+                    </li>
+                    <li class="list_li  ">
+                        <a href="gather1.html" class="text"><img src="xinyongka/images/foot_m_icon3.png"><span>快速收款</span></a>
+                    </li>
+                    <li class="list_li  f_active">
+                        <a href="userIndex.html" class="text"><img src="xinyongka/images/foot_m_icon4.png"><span>我的</span></a>
+                    </li>
+        </ul>
+    </div>
+
+    <!-----footer the end---->
+    <script src="script/api.js"></script>
+    <script src="script/application.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            try {
+                var _user_info = localStorage.getItem("UserInfo");
+                if (_user_info == null) {
+                    $.myToast("请先登录再操作!");
+                    window.open("userlogin.html", "_self");
+                } else {
+                    //初始化绑定
+                    //  $("#user_id").val(JSON.parse(_user_info).id);
+                    initOrderInfo()
+                }
+            } catch (e) {
+                //alert(e.name + ": " + e.message);
+                window.open("userlogin.html", "_self");
+            }
+        });
+    </script>
+    <script type="text/javascript">
+        function initOrderInfo() {
+            var _BankCardNo = getQueryString("orderNumber");
+            var objDataA = {
+                OrderNoB: _BankCardNo
+            };
+            //以下登录为ajax跨域登录
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "http://testapi.qinengsoft.com/OnlinePay/kft/Card_Order_GetOne",
+                data: objDataA,
+                success: function (result) {
+                    console.log(result);
+                    $api.html($api.byId("txtMoney"), "￥ " + result.data.Amount / 100);
+                    var _to_car_no = result.data.Merchantbankaccountno.substr(result.data.Merchantbankaccountno.length - 4)
+                    $api.html($api.byId("txtCard"), result.to_bank_name + "(" + _to_car_no + ")");
+                    $api.html($api.byId("txtContent"), "预计:" + getNowFormatDate() + " 之前到账");
+                }
+            });
+        }
+        function btnSubmit() {
+            window.open("index.html", "_self");
+        }
+        function getNowFormatDate() {
+            var date = new Date();
+            var min = date.getMinutes();
+            date.setMinutes(min + 10);
+            var seperator1 = "-";
+            var seperator2 = ":";
+            var month = date.getMonth() + 1;
+            var strDate = date.getDate();
+            if (month >= 1 && month <= 9) {
+                month = "0" + month;
+            }
+            if (strDate >= 0 && strDate <= 9) {
+                strDate = "0" + strDate;
+            }
+            if (strDate >= 0 && strDate <= 9) {
+                strDate = "0" + strDate;
+            }
+            var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+                + " " + date.getHours() + seperator2 + date.getMinutes()
+                + seperator2 + date.getSeconds();
+            return currentdate;
+        }
+        //url传参
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+        function backOrClose(){
+            window.history.go(-1)
+        }
+    </script>
+
+</body>
+</script>
+
+</html>

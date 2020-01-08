@@ -1,0 +1,90 @@
+* { -webkit-tap-highlight-color: rgba(0,0,0,0); -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; box-sizing: border-box;}
+
+.i_menus{ background-color:#0a93ea; overflow:hidden; padding:15px 0;}
+.i_navs{ background-color:#0a93ea; overflow:hidden;}
+.i_navs li{ font-size:15px; width:25%; text-align:center;}
+.i_navs li i{ display:block; text-align:center; font-size:36px; color:#fff; line-height:39px; }
+.i_navs li span{ display:block; text-align:center; line-height:30px; }
+
+
+#liveDivs{ display:block; width:100%; background:#0a93ea;}
+#liveDivs li{ float:left;text-align:center;}
+#liveDivs li{ color:#fff; display:block;}
+#liveDivs li.ant{ color:#e95800; border-bottom:3px solid #e95800;}
+#liveDivs{ z-index:9999;}
+
+/*------banner the end-----*/
+.warp_menus{ background-color:#ffffff; overflow:hidden; border-bottom:5px solid #e5e5e5; padding:10px 0 5px 0;}
+.warp_menus_nav li{width:25%; float:left;  border-top:0; border-right:0; text-align:center;}
+.warp_menus_nav li:active{ background-color:#f4f4f4;}
+.warp_menus_nav li span{display:block;}
+.warp_menus_nav li span i{ font-size:39px; line-height:1.6em;}
+.warp_menus_nav li.mnb2 span i{font-size:38px;line-height:1.4em;}
+.warp_menus_nav li.mnb3 span i{font-size:36px; line-height:1.6em;}
+.warp_menus_nav li.mnb4 span i{font-size:38px;}
+.warp_menus_nav li.mnb5 span i{font-size:38px; line-height:1.8em;}
+.warp_menus_nav li.mnb6 span i{font-size:38px; line-height:1.7em;}
+.warp_menus_nav li.mnb7 span i{font-size:37px; line-height:1.8em;}
+.warp_menus_nav li.mnb8 span i{font-size:40px; line-height:1.7em;}
+.warp_menus_nav li.mnb9 span i{font-size:36px; line-height:1.9em;}
+.warp_menus_nav li.mnb10 span i{font-size:36px; line-height:1.7em;}
+.warp_menus_nav li.mnb11 span i{font-size:38px; line-height:1.7em;}
+.warp_menus_nav li.mnb12 span i{font-size:36px; line-height:1.7em;}
+
+.warp_menus_nav li.mnb1 .warp_menus_bg{ width:3em; height:3em;  margin:0 auto;text-align:center; background-color:rgb(213,117,56);}
+.warp_menus_nav li.mnb2 .warp_menus_bg{ width:3em; height:3em; border-radius:3em; margin:0 auto;text-align:center; background-color:#fc8ea9;}
+.warp_menus_nav li.mnb3 .warp_menus_bg{ width:3em; height:3em; border-radius:3em; margin:0 auto;text-align:center; background-color:#ffa851;}
+.warp_menus_nav li.mnb4 .warp_menus_bg{ width:3em; height:3em; border-radius:3em; margin:0 auto;text-align:center; background-color:#74b6fa;}
+.warp_menus_nav li.mnb5 .warp_menus_bg{ width:3em; height:3em; border-radius:3em; margin:0 auto;text-align:center; background-color:#ff6363;}
+.warp_menus_nav li.mnb6 .warp_menus_bg{ width:3em; height:3em; border-radius:3em; margin:0 auto;text-align:center; background-color:#a19eff;}
+.warp_menus_nav li.mnb7 .warp_menus_bg{ width:3em; height:3em; border-radius:3em; margin:0 auto;text-align:center; background-color:#fc8ea9;}
+.warp_menus_nav li.mnb8 .warp_menus_bg{ width:3em; height:3em; border-radius:3em; margin:0 auto;text-align:center; background-color:#a19eff;}
+.warp_menus_nav li.mnb9 .warp_menus_bg{ width:3em; height:3em; border-radius:3em; margin:0 auto;text-align:center; background-color:#3fafee;}
+.warp_menus_nav li.mnb10 .warp_menus_bg{ width:3em; height:3em; border-radius:3em; margin:0 auto;text-align:center; background-color:#ec7c44;}
+.warp_menus_nav li.mnb11 .warp_menus_bg{ width:3em; height:3em; border-radius:3em; margin:0 auto;text-align:center; background-color:#43d890;}
+.warp_menus_nav li.mnb12 .warp_menus_bg{ width:3em; height:3em; border-radius:3em; m  argin:0 auto;text-align:center; background-color:#687cf0;}
+.warp_menus_nav li.mnb1 .warp_menus_bg div{font-size:1rem; padding-top:0.1rem;}
+
+.warp_menus_nav_tit{ line-height:36px;}
+/*------warp_menus_navs the end-----*/
+.tehui_warps{}
+.tehui_warps h2{ width:100px; margin:12px auto 14px auto; overflow:hidden;}
+.h_border_lr{ border-top:2px solid #e94100; width:20px; height:10px; margin:9px 5px 0 5px;}
+.jr_titles{ font-size:20px; font-weight:normal;color:#e94100;}
+
+.i_sp_boxs{ padding:0 10px;}
+.i_sp_boxs li{ width:100%; overflow:hidden; border-bottom:1px solid #ebebeb; padding:10px 0;}
+.news_pro_pics{width:160px;height:160px; overflow: hidden; border:1px solid #ebebeb; float:left;}
+.news_pro_pics span{display: table-cell; width:160px; height:160px; *display: block; text-align:center; overflow: hidden;vertical-align: middle;line-height:160px;*font-size:150px; *font-family:Arial;}
+.news_pro_pics img{max-width:160px; max-height:160px; width:100%; vertical-align: middle; text-align: center;}
+.i_products_right{ margin-left:160px; padding:0 10px;}
+.i_r_title{ line-height:18px; font-size:14px; height:36px; overflow:hidden; color:#1e1e1e;}
+.i_r_leibie{ color:#9f9f9f; font-size:13px; text-align:left; border-radius:4px; padding:1px 0; margin-top:5px;}
+.i_r_leibie i{ color:#f8b164;}
+.i_r_money{ font-size:1rem; color:#e94100; margin-top:5px;}
+.i_r_money_yj{ font-size:14px; color:#848484; text-decoration:line-through; margin-top:5px;}
+.i_r_button{ background-color:#ec5b21; font-size:16px; color:#fff; text-align:center; padding:8px 0; border-radius:5px; margin-top:8px;}
+.i_r_button:active{ background-color:#eb4200;}
+
+/*---轮播 效果--*/
+.swipe {overflow: hidden;position: relative;}	
+.swipe-wrap {overflow: hidden;position: relative;}	
+.swipe-wrap > div {	float: left;width: 100%; position: relative;}	
+.swipe-wrap > div {	overflow: hidden;	position: relative;}	
+.swipe-wrap img {	width: 100%;height:auto;max-height:322px;min-width:320px;max-width:1280px;}	
+
+/*---Splash 引导页效果---*/
+.splash {width:100%;height:100%;}	
+.splash-wrap {overflow: hidden;position: relative;}	
+.splash-wrap > div {	float: left;width: 100%; position: relative;}	
+.splash-wrap > div {	overflow: hidden;	position: relative;}	
+.splash-wrap img {	width: 100%;height:100%;}	
+
+#splash-pointer { position: absolute;bottom: 6rem;overflow: hidden;width: 100%;text-align: center; z-index:999999}	
+#splash-pointer div{display: inline-block;width:10px;height:10px;border-radius:10px;	margin-right:6px;background-color: #b2b2b2;}	
+#splash-pointer div.active {background-color:#ffffff;}		
+
+#slide {margin: 0 auto;	 position: relative;}	
+#pointer { position: absolute;	 bottom: 12px;	overflow: hidden;width: 100%;text-align: center;}	
+#pointer a {display: inline-block;	width:10px;	height:10px;border-radius:10px;	margin-right:6px;background-color: #b2b2b2;}	
+#pointer a.active {	 background-color:#ffffff;}		

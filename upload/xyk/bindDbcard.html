@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="author" content="johnye">
+    <meta name="copyright" content="Copyright (c) 2002-2018 helloworld.">
+    <meta name="description" content="Hello World">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>添加储蓄卡</title>
+    <link href="script/jquery/toast.css" rel="stylesheet" />
+    <link type="text/css" rel="stylesheet" href="xinyongka/css/api.css">
+    <link type="text/css" rel="stylesheet" href="xinyongka/css/aui.css">
+    <link type="text/css" rel="stylesheet" href="xinyongka/css/style.css">
+
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="back" onclick="backOrClose()"><a href="#"><img src="xinyongka/images/jiantou.png"></a></div>
+        <div class="titles">储蓄卡</div>
+    </div>
+    <!----header the end------>
+
+    <div id="main" class="flex-con">
+
+        <div class="xyk_tit">
+            <ul class="xyk_tit_box">
+                <li class="k_icon1">
+                    <a href="javascript::" onclick="btnAddCreditCard()">
+                        <div>
+                            <span class="k_t1">信用卡</span>
+                            <span class="k_t2">添加实名认证后信用卡</span>
+                        </div>
+                    </a>
+                </li>
+                <!--end-->
+                <li class="k_icon2 xk_actice2">
+                    <a href="javascript::">
+                        <div>
+                            <span class="k_t1">储蓄卡</span>
+                            <span class="k_t2">添加本人储蓄卡</span>
+                        </div>
+                    </a>
+                </li>
+                <!--end-->
+
+            </ul>
+
+        </div>
+        <!--xyk_tit end-->
+
+        <div class="tishi_k">* 绑定自己真实的储蓄卡</div>
+        <!--end-->
+        <div class="ka_cont_bg">
+            <ul class="hy_boxs">
+                <li class="tboxs_inp"><span>银行卡号</span><input type="number" id="txtNumber" placeholder="请输入储蓄卡号"
+                        style="padding-left:65px;"></li>
+                <!---the end--->
+                <li class="tboxs_inp"><span>手机号</span><input type="number" id="txtTelePhone" placeholder="请输入银行预留手机号"
+                        maxlength="11" style="padding-left:65px;"></li>
+                <!---the end--->
+                <li class="tboxs_inp" id="Cardholder_box"><span>姓名</span><input type="text" id="Cardholder" placeholder="请输入姓名"
+                    maxlength="11" style="padding-left:65px;"></li>
+            <!---the end--->
+            <li class="tboxs_inp" id="IdCard_box"><span>身份证号</span><input type="number" id="IdCard" placeholder="请输入身份证号"
+                maxlength="18" style="padding-left:65px;"></li>
+        <!---the end--->
+            </ul>
+            <div class="tijiao_btn"><input type="button" onclick="btnAddCard()" value="确认提交"></div>
+        </div>
+    </div>
+    <!-----main the end---->
+    <input id="user_id" type="hidden" />
+    <!-- <input id="Cardholder" type="hidden" />
+    <input id="IdCard" type="hidden" /> -->
+    <div id="footer">
+        <ul id="footer_list">
+            <li class="list_li  ">
+                <a href="index.html" class="text"><img src="xinyongka/images/foot_m_icon1.png"><span>首页</span></a>
+            </li>
+            <li class="list_li  ">
+                <a href="creditList.html" class="text"><img
+                        src="xinyongka/images/foot_m_icon2.png"><span>智能还款</span></a>
+            </li>
+            <li class="list_li  ">
+                <a href="gather1.html" class="text"><img src="xinyongka/images/foot_m_icon3.png"><span>快速收款</span></a>
+            </li>
+            <li class="list_li  f_active">
+                <a href="userIndex.html" class="text"><img src="xinyongka/images/foot_m_icon4.png"><span>我的</span></a>
+            </li>
+        </ul>
+    </div>
+
+    <!-----footer the end---->
+    <script src="script/api.js"></script>
+    <script src="script/jquery/jquery-1.9.2.min.js"></script>
+    <script src="script/application.js"></script>
+    <link href="script/myAlert/myAlert.min.css" rel="stylesheet" />
+    <script src="script/myAlert/myAlert.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            try {
+                var _user_info = localStorage.getItem("UserInfo");
+                if (!_user_info) {
+                    $.myToast("请先登录再操作!");
+                    window.open("userlogin.html", "_self");
+                } else {
+                    console.log(_user_info);
+                    $("#user_id").val(JSON.parse(_user_info).id);
+                    //预留手机号
+                    $("#txtTelePhone").val(JSON.parse(_user_info).telephone);
+                    iniUserAuth();
+                }
+            } catch (e) {
+                //alert(e.name + ": " + e.message);
+                window.open("userlogin.html", "_self");
+            }
+        });
+    </script>
+    <script type="text/javascript">
+        function iniUserAuth() {
+            var objData = {
+                UserId: $("#user_id").val(),
+            };
+            var objModel = {
+                Url: "http://testapi.qinengsoft.com/OnlinePay/kft/User_Is_Auth",
+                Data: objData,
+                Method: "Post"
+            };
+            ajaxUrl(objModel, CardSucc);
+        }
+        //ajax回调
+        function CardSucc(ret, err) {
+            //  console.log(ret);
+            if (ret.code == 1) {
+                //持卡人姓名
+                $("#Cardholder").val(ret.data.Truename);
+                //持卡人身份证号
+                $("#IdCard").val(ret.data.Idcard);
+                
+                $("#Cardholder_box").hide();
+                $("#IdCard_box").hide();
+             } 
+            //else {
+            //     $.myToast("实名认证之后才可以绑卡！");
+            //     setTimeout("btnUserAuth()", 1500);
+            // }
+        }
+        //跳转到信用卡绑定界面
+        function btnAddCreditCard() {
+            var _BankCode = getQueryString("Bancode")
+            var _BankName = getQueryString("Bankname")
+            var cmdUrl = "bindCreditCard.html" + "?Bancode=" + _BankCode + "&Bankname=" + escape(_BankName);
+            window.open(cmdUrl, "_self");
+        }
+        //添加绑定操作
+        function btnAddCard() {
+            var _UserId = $api.val($api.byId("user_id"));
+            var _Cardholder = $api.val($api.byId("Cardholder"));
+            var _IdCard = $api.val($api.byId("IdCard"));
+            var _BankCode = getQueryString("Bancode");
+            var _BankName = getQueryString("Bankname");
+
+            var _cardNo = $api.val($api.byId("txtNumber"));
+            var _phone = $api.val($api.byId("txtTelePhone"));
+            if ($api.stringOrEmpty(_cardNo)) { $.myToast("请输入储蓄卡号"); return; }
+            if ($api.stringOrEmpty(_phone)) { $.myToast("请输入预留手机号"); return; }
+            if ($api.stringOrEmpty(_Cardholder)) { $.myToast("姓名不能为空"); return; }
+            if ($api.stringOrEmpty(_IdCard)) { $.myToast("身份证不能为空"); return; }
+            var _expireTime = "";
+            var _cvv2 = "0000";
+            var postData = {
+                UserId: _UserId, //用户编号
+                Cardholder: _Cardholder, //用户真实姓名
+                IdCard: _IdCard, //用户身份证号
+                BankCode: _BankCode,//银行行别编号
+                BankName: _BankName, //银行名称
+                BankCardNumber: _cardNo,//银行卡卡号
+                Mobile: _phone,//手机号
+                CardType: 1, //卡类型：1、储蓄卡2、信用卡
+                Expiretime: _expireTime,//信用卡有效期
+                Cvv2: _cvv2,//信用卡Cvv2
+            };
+            var objModel = {
+                Url: "http://testapi.qinengsoft.com/OnlinePay/kft/Bind_Card_Add",
+                Data: postData,
+                Method: "Post"
+            };
+            ajaxUrl(objModel, function (ret) {
+                //console.log(JSON.stringify(ret));
+                if (ret.code == 1) {
+                    //绑卡成功
+                    $.myToast("绑定成功");
+                    setTimeout("btnOpenIndex()", 1500);
+                }
+                else {
+                    $.myToast(ret.info);
+                }
+            });
+        }
+        //跳转到首页
+        function btnOpenIndex() {
+            window.open("index.html", "_self");
+        }
+        //url传参
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+        function backOrClose(){
+            window.history.go(-1)
+        }
+    </script>
+
+</body>
+
+</html>

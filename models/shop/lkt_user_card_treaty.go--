@@ -1,0 +1,18 @@
+package shop
+
+type UserCardTreaty struct {
+	Id                int    `xorm:"not null pk autoincr comment('主键') INT(11)"`
+	UserId            string `xorm:"not null comment('用户id') CHAR(15)"`
+	Treatyid          string `xorm:"comment('协议号') VARCHAR(50)"`
+	Treatytype        string `xorm:"comment('协议类型：11：借记卡扣款 12：信用卡扣款 13：余额扣款 14：余额+借记卡扣款 15： 余额+信用卡扣款') CHAR(10)"`
+	Note              string `xorm:"comment('协议说明') TEXT"`
+	Enddate           string `xorm:"comment('协议失效日期') VARCHAR(50)"`
+	Holdername        string `xorm:"comment('持卡人真实姓名') VARCHAR(50)"`
+	Banktype          string `xorm:"comment('银行行别代码') VARCHAR(50)"`
+	Bankcardtype      string `xorm:"comment('银行卡类型 1、借记卡 2、信用卡') CHAR(10)"`
+	Bankcardno        string `xorm:"comment('银行卡号') VARCHAR(50)"`
+	Mobileno          string `xorm:"comment('预留手机号') VARCHAR(50)"`
+	Certificateno     string `xorm:"comment('身份证号') VARCHAR(50)"`
+	Custcardvaliddate string `xorm:"comment('客户信用卡有效期') CHAR(10)"`
+	Custcardcvv2      string `xorm:"comment('cvv2') CHAR(10)"`
+}

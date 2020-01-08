@@ -1,0 +1,240 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="author" content="ZFB">
+    <meta name="copyright" content="Copyright (c) 2002-2019 helloworld.">
+    <meta name="description" content="Hello World">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>信用卡</title>
+    <link type="text/css" rel="stylesheet" href="xinyongka/css/api.css">
+    <link type="text/css" rel="stylesheet" href="xinyongka/css/aui.css">
+    <link type="text/css" rel="stylesheet" href="xinyongka/css/style.css">
+
+    <script type="text/javascript" src="xinyongka/js/api.js"></script>
+    <script type="text/javascript" src="xinyongka/js/swipe.js"></script>
+    <script type="text/javascript" src="xinyongka/js/jquery-1.7.1.min.js"></script>
+    <script src="script/artTemplate/doT.min.js"></script>
+    <script src="script/application.js"></script>
+    <link href="script/jquery/toast.css" rel="stylesheet" />
+    <script src="script/jquery/toast.js"></script>
+    <style type="text/css">
+        /*Plugin CSS*/
+        .str_wrap {
+            overflow: hidden;
+            width: 100%;
+            font-size: 16px;
+            line-height: 32px;
+            position: relative;
+            -moz-user-select: none;
+            -khtml-user-select: none;
+            user-select: none;
+            background: #f6f6f6;
+            white-space: nowrap;
+        }
+
+        .str_wrap.str_active {
+            background: #f1f1f1;
+        }
+
+        .str_move {
+            white-space: nowrap;
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: move;
+        }
+
+        .str_move_clone {
+            display: inline-block;
+            vertical-align: top;
+            position: absolute;
+            left: 100%;
+            top: 0;
+        }
+
+        .str_vertical .str_move_clone {
+            left: 0;
+            top: 100%;
+        }
+
+        .str_down .str_move_clone {
+            left: 0;
+            bottom: 100%;
+        }
+
+        .str_vertical .str_move,
+        .str_down .str_move {
+            white-space: normal;
+            width: 100%;
+        }
+
+        .str_static .str_move,
+        .no_drag .str_move,
+        .noStop .str_move {
+            cursor: inherit;
+        }
+
+        .str_wrap img {
+            max-width: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header" style="display:none;">
+        <div class="back" onclick=""><a href="#"><img src="xinyongka/images/jiantou.png"></a></div>
+        <div class="titles">首页</div>
+    </div>
+    <!----header the end------>
+
+    <div id="main" class="flex-con">
+
+        <div id="slide" class="swipe">
+            <div class="swipe-wrap" id="banner-content">
+                <div onclick="" tapmode="">
+                    <img src="xinyongka/images/banner.jpg" />
+                </div>
+            </div>
+            <div id="pointer">
+                <a class="active"></a>
+            </div>
+        </div>
+        <!-----swipe the end---->
+        <div id="broadcast" class="bar">
+            <div
+                style="float:left; background:url(xinyongka/images/laba_icon.png) no-repeat 8px 10px; background-size:20px; padding:10px 0 0 36px; font-size:17px;">
+                通知：</div>
+            <div id="demo" style="overflow:hidden;height:38px;line-height:38px;">
+                <ul class="str1 str_wrap" id="holder" style="">
+                </ul>
+            </div>
+        </div>
+        <!-----broadcast the end---->
+
+        <div class="i_menu">
+            <ul class="i_menu_boxs">
+                <li><a href="CreditListAll.html"><img style="width:1.8rem;height:1.8rem;" src="xinyongka/images/nav_icon1.png"><span>卡管理</span></a></li>
+                <li><a href="#"><img style="width:1.8rem;height:1.8rem;" src="xinyongka/images/nav_icon2.png"><span>储蓄卡收款</span></a></li>
+                <li><a href="creditList.html"><img style="width:1.8rem;height:1.8rem;" src="xinyongka/images/nav_icon3.png"><span>智能养卡</span></a></li>
+                <li><a href="gather1.html"><img style="width:1.8rem;height:1.8rem;" src="xinyongka/images/nav_icon4.png"><span>手动养卡</span></a></li>
+                <li><a href="myyue.html"><img style="width:1.8rem;height:1.8rem;" src="xinyongka/images/nav_icon5.png"><span>我的余额</span></a></li>
+                <li><a href="xfmxlist.html"><img style="width:1.8rem;height:1.8rem;" src="xinyongka/images/nav_icon6.png"><span>消费明细</span></a></li>
+            </ul>
+        </div>
+        <!-----i_menu the end---->
+    </div>
+    <!-----main the end---->
+
+    <div id="footer">
+        <ul id="footer_list">
+            <li class="list_li  f_active">
+                <a href="index.html" class="text"><img src="xinyongka/images/foot_m_icon1.png"><span>首页</span></a>
+            </li>
+            <li class="list_li  ">
+                <a href="creditList.html" class="text"><img
+                        src="xinyongka/images/foot_m_icon2.png"><span>智能还款</span></a>
+            </li>
+            <li class="list_li  ">
+                <a href="gather1.html" class="text"><img src="xinyongka/images/foot_m_icon3.png"><span>快速收款</span></a>
+            </li>
+            <li class="list_li">
+                <a href="userIndex.html" class="text"><img src="xinyongka/images/foot_m_icon4.png"><span>我的</span></a>
+            </li>
+        </ul>
+    </div>
+
+    <!-----footer the end---->
+    <script id="myScroll-template-list" type="text/x-dot-template">
+        {{for(var i = 0; i<it.length;i++){}}
+        {{?it[i].userId>0}}
+        <li><a href="javascript::" style="color:#ff0000;">{{=i+1}}、{{=it[i].Content}}</a></li>
+        {{?}}
+        {{}}}
+    </script>
+    <input type="hidden" id="linkcode" value='Request["linkcode"]' />
+    <script src="script/jquery/jquery-2.1.0.min.js"></script>
+    <script src="script/jquery/jquery.liMarquee.js"></script>
+    <link href="script/myAlert/myAlert.min.css" rel="stylesheet" />
+    <script src="script/myAlert/myAlert.min.js"></script>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+    <script type="text/javascript">
+       // setTimeout("window.location.reload(true);", 16000);
+        // window.location.reload(true); 
+        apiready = function () {
+            var objList = [{ "userId": 111, "Content": "由于通道额度受限，目前已暂时关闭交易，明天7点恢复，给大家带来不便非常抱歉，敬请谅解！" }];
+            dotBind("myScroll-template-list", objList, "holder");
+            $('.str1').liMarquee();
+            //添加storeage
+            var code="15638905677";
+            var linkcode=GetQueryString("linkcode");
+            if(linkcode&&linkcode.length>10){
+                code=linkcode;
+            }
+            sessionStorage.obj = code;
+
+            var _user_info = localStorage.getItem("UserInfo");
+            console.log(_user_info);
+            if (_user_info==null){
+                localStorage.clear(); //清空缓存退出登录
+                window.open("userlogin.html", "_self");
+            }
+          
+        }
+        
+        window.onload = apiready;
+
+        function AutoScroll(obj) {
+            $(obj).find("ul:first").animate({
+                marginTop: "-15px"
+            },
+                400,
+                function () {
+                    $(this).css({
+                        marginTop: "0px"
+                    }).find("li:first").appendTo(this);
+                });
+        }
+        //跳转到小程序
+        $("#xcx_box").on("click", function () {
+            alert("请进入商城实名认证！")
+            //  wx.miniProgram.navigateTo({ url: '/pages/index/index' })
+
+            wx.navigateToMiniProgram({
+                appId: 'wx8e1e48c87de2a483',
+                path: 'pages/index/index',
+                extraData: {
+                    path: 'mypath'
+                },
+                envVersion: '',
+                success: function (res) {
+                    alert("success")
+                },
+                fail: function (res) {   alert("fail")
+                },
+                complete: function (res) { 
+                    alert("complete")
+                },
+            })
+        });
+
+        function GetQueryString(name) {
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+			var r = window.location.search.substr(1).match(reg);
+			if(r != null) return decodeURI(r[2]);
+			return null;
+        }
+    </script>
+
+
+</body>
+
+</html>

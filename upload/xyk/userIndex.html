@@ -1,0 +1,260 @@
+﻿<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>会员中心</title>
+    <link href="css/Aui/api.css" rel="stylesheet" />
+    <link href="css/Aui/aui.2.0.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="css/Aui/aui_master.css" />
+    <style type="text/css">
+        .none {
+            display: none;
+        }
+
+        .text-white {
+            color: #ffffff !important;
+        }
+    </style>
+</head>
+
+<body>
+    <input id="user_id" type="hidden" />
+    <header class="aui-bar aui-bar-nav">
+        <a class="aui-pull-left" tapmode onclick="backOrClose()">
+        </a>
+        <div class="aui-title">会员中心</div>
+    </header>
+
+    <!-- 顶部 -->
+    <section class="aui-content" id="user-info">
+        <div class="aui-list aui-media-list aui-list-noborder aui-bg-info" style="background-color:#03a9f4">
+            <div class="aui-list-item aui-list-item-middle" style="background-color:#03a9f4">
+                <div class="aui-media-list-item-inner ">
+                    <div class="aui-list-item-media" style="width:3rem;" onclick="">
+                        <img id="Avatar" style="border-radius:50px;width:50px;height:50px;" src="images/person.png" class="aui-img-3">
+                    </div>
+                    <div class="aui-list-item-inner" onclick="">
+                        <div class="aui-list-item-text text-white">
+                            <div id="txtTrueName">
+
+                            </div>
+                        </div>
+                        <div class="aui-list-item-text text-white">
+                            <div id="txtUserName"></div>
+                        </div>
+                    </div>
+                    <div class="aui-list-item-media" style="width:3rem;display:none;" onclick="">
+                        <img id="imgLevel" src="images/vip/01.png" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="aui-content">
+        <ul class="aui-list aui-list-in aui-margin-b-15">
+            <!-- <li class="aui-list-item" onclick="openWindowName('userAuth.html')" style="display:none"> -->
+                    <li class="aui-list-item" onclick="alert('请进入商城实名认证！')" style="display:none">
+                <div class="aui-list-item-label-icon">
+                    <i class="iconfont" style="color:#124fe2;">&#xe66a;</i>
+                </div>
+                <div class="aui-list-item-inner aui-list-item-arrow">
+                    <div class="aui-list-item-title">实名认证</div>
+                </div>
+            </li>
+            <li style="display:none;" class="aui-list-item" onclick="openWindowName('userShare')">
+                <div class="aui-list-item-label-icon">
+                    <i class="iconfont" style="color:#F76249;">&#xe648;</i>
+                </div>
+                <div class="aui-list-item-inner aui-list-item-arrow">
+                    <div class="aui-list-item-title">我要推广</div>
+                </div>
+            </li>
+            <li class="aui-list-item"  onclick="openWindowYuE('myyue.html')" style="display:none">
+                    <div class="aui-list-item-label-icon">
+                        <i class="iconfont" style="color:#FF6A06;">&#xe60a;</i>
+                    </div>
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        <div class="aui-list-item-title">我的余额</div>
+                        <div class="aui-list-item-right"></div>
+                    </div>
+                </li>
+                <li class="aui-list-item" onclick="btnChangePwd()">
+                        <div class="aui-list-item-label-icon">
+                            
+                        </div>
+                        <div class="aui-list-item-inner aui-list-item-arrow">
+                            <div class="aui-list-item-title">修改密码</div>
+                            <div class="aui-list-item-right"></div>
+                        </div>
+                    </li>
+        </ul>
+
+        <ul class="aui-list aui-list-in  aui-margin-b-15">
+           
+            <li class="aui-list-item" onclick="btnOpenDown()">
+                <div class="aui-list-item-label-icon">
+                    
+                </div>
+                <div class="aui-list-item-inner aui-list-item-arrow">
+                    <div class="aui-list-item-title">下载APP</div>
+                    <div class="aui-list-item-right"></div>
+                </div>
+            </li>
+           <li style="padding-left: 50px;height:40px;line-height:40px">客服电话：<a href="tel:0371-61777267">0371-61777267</a><br/></li>
+           <li style="padding-left: 135px;height:30px;line-height:30px"><a  href="tel:0371-56601122">0371-56601122</a></li>
+            <li class="aui-list-item" onclick="btnLoginOut()">
+                <div class="aui-list-item-label-icon">
+                  
+                </div>
+                <div class="aui-list-item-inner aui-list-item-arrow">
+                    <div class="aui-list-item-title">退出登陆</div>
+                    <div class="aui-list-item-right"></div>
+                </div>
+            </li>
+        </ul>
+    </section>
+    <link type="text/css" rel="stylesheet" href="xinyongka/css/style.css">
+
+    <div id="footer">
+        <ul id="footer_list">
+                <li class="list_li  ">
+                        <a href="index.html" class="text"><img src="xinyongka/images/foot_m_icon1.png"><span>首页</span></a>
+                    </li>
+                    <li class="list_li  " >
+                        <a href="creditList.html" class="text"><img src="xinyongka/images/foot_m_icon2.png"><span>智能还款</span></a>
+                    </li>
+                    <li class="list_li  ">
+                        <a href="gather1.html" class="text"><img src="xinyongka/images/foot_m_icon3.png"><span>快速收款</span></a>
+                    </li>
+                    <li class="list_li  f_active">
+                        <a href="userIndex.html" class="text"><img src="xinyongka/images/foot_m_icon4.png"><span>我的</span></a>
+                    </li>
+        </ul>
+    </div>
+
+</body>
+<script src="script/api.js"></script>
+<script src="script/jquery/jquery-1.9.2.min.js"></script>
+<script src="script/application.js"></script>
+<script src="script/jquery/toast.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        try {
+            var _user_info = localStorage.getItem("UserInfo");
+            if (_user_info == null) {
+                $.myToast("请先登录再操作!");
+                window.open("userlogin.html", "_self");
+            } else {
+                $("#Avatar").attr("src", JSON.parse(_user_info).smallimage);
+                $("#user_id").val(JSON.parse(_user_info).id);
+                console.log(_user_info);
+                console.log(JSON.parse(_user_info).id);
+                console.log(JSON.parse(_user_info).username);
+                console.log(JSON.parse(_user_info).truename);
+                console.log(JSON.parse(_user_info).telephone);
+                console.log(JSON.parse(_user_info).smallimage);
+            }
+        } catch (e) {
+            //alert(e.name + ": " + e.message);
+            window.open("userlogin.html", "_self");
+        }
+
+    });
+</script>
+<script type="text/javascript">
+    var deviceInfo = { uid: 1289 };
+    var _userName = "";
+    function btnLoginOut() {
+        if (confirm("确定要退出当前账号吗?")) {
+            LoginOutFunc();
+        }
+    }
+    function LoginOutFunc() {
+        var cmdUrl = "LoginOut.html";
+        window.open(cmdUrl, "_self");
+    }
+    function bindInfo() {
+        var _userType = "普通用户";
+        var objModel = {
+            Url: $api.User_BaseInfo,
+            Data: {},
+            Headers: { userId: deviceInfo.uid },
+            Method: "Post",
+            File: {}
+        };
+        ajaxUrl(objModel, function (ret, err) {
+            //console.log(JSON.stringify(ret));
+            if (ret.Success) {
+                var objData = ret.Data;
+                _userName = objData.username;
+                var _smallImage = "http://api.xhdncppf.com" + objData.smallimage;
+                console.log(_smallImage);
+                $api.attr($api.byId("Avatar"), "src", _smallImage);
+                var _levImg = "01.png";
+                if (objData.user_type == 10) {
+                    var _reNumber = objData.recoNumber;
+                    if (_reNumber >= 2 && _reNumber < 5) {
+                        _userType = "普通合伙人";
+                        _levImg = "01.png";
+                    }
+                    else if (_reNumber >= 5 && _reNumber < 10) {
+                        _userType = "VIP合伙人";
+                        _levImg = "02.png";
+                    }
+                    else if (_reNumber >= 10 && _reNumber < 50) {
+                        _userType = "钻石合伙人";
+                        _levImg = "03.png";
+                    }
+                    else if (_reNumber >= 50 && _reNumber < 100) {
+                        _userType = "皇冠合伙人";
+                        _levImg = "04.png";
+                    }
+                    else if (_reNumber >= 100) {
+                        _userType = "股东";
+                        _levImg = "05.png";
+                    }
+                }
+                else if (objData.user_type == 20) {
+                    _userType = "代理";
+                    _levImg = "05.png";
+                    $api.attr($api.byId("divAgent"), "style", "");
+                }
+                else if (objData.user_type == 30) {
+                    _userType = "股东";
+                    _levImg = "05.png";
+                }
+                $api.html($api.byId("txtTrueName"), _userName);
+                //$api.attr($api.byId("imgLevel"), "src", "images/vip/" + _levImg);//alert(_levImg);
+            }
+        });
+        //$api.attr($api.byId("Avatar"), "src", $api.GetUserImage(objData.smallimage));
+    }
+    apiready = function () {
+        bindInfo();
+    };
+    window.onload = apiready;
+    function openWindowName(objUrl) {
+        window.open(objUrl, "_self");
+    }
+    function openWindowYuE(objUrl) {
+        window.open(objUrl, "_self");
+    }
+    function btnOpenDown() {
+        window.open("https://shop.xhdncppf.com/down/", "_self");
+    }
+    function btnChangePwd(){
+        window.open("updatePass.html", "_self");
+    }
+    function backOrClose(){
+            window.history.go(-1)
+        }
+</script>
+
+</html>

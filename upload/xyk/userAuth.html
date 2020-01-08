@@ -1,0 +1,286 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="author" content="johnye">
+    <meta name="copyright" content="Copyright (c) 2002-2017 helloworld.">
+    <meta name="description" content="Hello World">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>基本信息</title>
+    <link href="script/jquery/toast.css" rel="stylesheet" />
+    <link href="css/Aui/api.css" rel="stylesheet" />
+    <link href="css/Aui/aui.2.0.css" rel="stylesheet" />
+    <style>
+        img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav">
+        <a class="aui-pull-left" tapmode onclick="backOrClose()"> <span class="aui-iconfont aui-icon-left"></span> </a>
+        <div class="aui-title">
+            实名认证
+        </div>
+        <div class="aui-pull-right aui-btn aui-btn-outlined" onclick="btnSubmit()" id="divFlag">
+            保存
+        </div>
+    </header>
+    <input id="user_id" type="hidden" />
+    <div class="aui-content aui-padded-t-45">
+        <ul class="aui-list aui-form-list">
+            <li class="aui-list-header">
+                基础信息
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        账号
+                    </div>
+                    <div class="aui-list-item-input">
+                        <input type="text" id="txtUserName" placeholder="请输入联系方式" readonly="readonly" />
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        真实姓名
+                    </div>
+                    <div class="aui-list-item-input">
+                        <input type="text" id="txtTrueName" placeholder="请输入真实姓名">
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        身份证号
+                    </div>
+                    <div class="aui-list-item-input">
+                        <input type="text" id="txtUserCard" placeholder="请输入身份证号">
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="aui-list aui-form-list">
+            <div class="aui-list-header">
+                身份证正面(请上传清晰照)
+            </div>
+            <div class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-row aui-row-padded" id="div_Person">
+                        <div class="aui-col-xs-4">
+                            <input id="filePerson" type="file" style="display:none;" accept="image/*"
+                                onchange="selectFile('Person')" />
+                            <img id="imgPerson" src="images/card/card.jpg" onclick="btnSelect('Person')" />
+                            <input type="hidden" id="inputPerson" value="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="aui-list-header">
+                身份证反面(请上传清晰照)
+            </div>
+            <div class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-row aui-row-padded" id="div_PersonBack">
+                        <div class="aui-col-xs-4">
+                            <input id="filePersonBack" type="file" style="display:none;" accept="image/*"
+                                onchange="selectFile('PersonBack')" />
+                            <img id="imgPersonBack" src="images/card/card-back.jpg" onclick="btnSelect('PersonBack')" />
+                            <input type="hidden" id="inputPersonBack" value="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="script/api.js"></script>
+<script src="script/jquery/jquery-1.9.2.min.js"></script>
+<script src="script/application.js"></script>
+<script src="script/jquery/toast.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        try {
+            var _user_info = localStorage.getItem("UserInfo");
+            if (_user_info == null) {
+                $.myToast("请先登录再操作!");
+                window.open("userlogin.html", "_self");
+            } else {
+                $("#user_id").val(JSON.parse(_user_info).id);
+                //预留手机号
+                $("#txtUserName").val(JSON.parse(_user_info).telephone);
+                initCardList();
+            }
+        } catch (e) {
+            window.open("userlogin.html", "_self");
+        }
+
+    });
+</script>
+<script>
+    //如果已经实名认证直接绑定用户认证信息
+    function initCardList() {
+        var objData = {
+            "UserId": $("#user_id").val(),
+        };
+        var objModel = {
+            Url: "http://testapi.qinengsoft.com/OnlinePay/kft/User_Is_Auth",
+            Data: objData,
+            Method: "Post"
+        };
+        ajaxUrl(objModel, AuthSucc);
+    }
+    function AuthSucc(ret) {
+        console.log(ret);
+       // $api.removeAttr($api.byId("divFlag"), "onclick");
+        if (ret.code == 1) {
+            // $api.val($api.byId("txtUserName"), ret.data.Truename);
+            $api.val($api.byId("txtTrueName"), ret.data.Truename);
+            $api.val($api.byId("txtUserCard"), ret.data.Idcard);
+            if (!$api.stringOrEmpty(ret.data.Personimg)) {
+                var filePath =$api.GetUserImage(ret.data.Personimg)
+                bindImgHiden("imgPerson", "inputPerson", filePath)
+            }
+            if (!$api.stringOrEmpty(ret.data.Personimgback)) {
+                var filePath = $api.GetUserImage(ret.data.Personimgback)
+                bindImgHiden("imgPersonBack", "inputPersonBack", filePath)
+            }
+           // $api.removeAttr($api.byId("divFlag"), "onclick");
+            //$api.html($api.byId("divFlag"), "已实名");
+        }
+    }
+    //绑定图片
+    function bindImgHiden(objId, objFileId, objPath) {
+       // console.log(objPath);
+       objPath= "http://api1.xhdncppf.com"+ objPath;
+        $api.attr($api.byId(objId), "src", objPath);
+        $api.val($api.byId(objFileId), objPath);
+    }
+
+    function btnSelect(objId) {
+        document.getElementById("file" + objId).click();
+    }
+
+    function selectFile(objId) {
+        var files = document.getElementById('file' + objId).files;
+        if (files.length == 0) {
+            return;
+        }
+        var file = files[0];
+        //把上传的图片显示出来
+        var reader = new FileReader();
+        // 将文件以Data URL形式进行读入页面
+        //console.log(reader);
+        reader.readAsBinaryString(file);
+        reader.onload = function (f) {
+            var result = document.getElementById("img" + objId);
+            var src = "data:" + file.type + ";base64," + window.btoa(this.result);
+            console.log("base64:" + src);
+            result.src = src;
+            toast("正在上传..", 2000);
+            var objData = {
+                base64Data: window.btoa(this.result)
+            };
+            var objModel = {
+                Url: "/webchat/UploadImg",
+                Headers: {
+                    userId: deviceInfo.uid
+                },
+                Method: "Post",
+                File: {},
+                Data: objData
+            };
+            ajaxUrl(objModel, function (ret) {
+                console.log(ret);
+                if (ret.Success) {
+                    toast("上传成功", 2000);
+                    //document.getElementById("img" + objId).src = ret.Data;
+                    document.getElementById("input" + objId).value = ret.Data;
+                    updatePic(objId, ret.Data);
+                }
+            });
+
+        }
+        //onsole.log('file', file);
+        //form.append('file', file);
+        //console.log(form.get('file'));
+    }
+    function updatePic(objId, objData) {
+        var _filePath = document.getElementById("input" + objId).value;
+        var postData = { imgType: 1, filePath: _filePath };
+        if (objId == "PersonBack") {
+            postData = { imgType: 2, filePath: _filePath };
+        }
+        var objModel = {
+            Url: "/webchat/UpdateAuthImg",
+            Data: postData,
+            Headers: {
+                userId: deviceInfo.uid
+            },
+            File: {},
+            Method: "Post"
+        };
+        ajaxUrl(objModel, function (ret) {
+            console.log(ret);
+        });
+
+    }
+</script>
+<script type="text/javascript">
+    function btnSubmit() {
+        var _trueName = $api.val($api.byId("txtTrueName"));
+        var _idCard = $api.val($api.byId("txtUserCard"));
+        var _person = $api.val($api.byId("inputPerson"));
+        var _personBack = $api.val($api.byId("inputPersonBack"));
+        if (_trueName === "" || _idCard === "") {
+            toast("请完善相关资料");
+            return;
+        }
+        if (_person === "") {
+            toast("请上传身份证正面照片");
+            return;
+        }
+        if (_personBack === "") {
+            toast("请上传身份证反面照片");
+            return;
+        }
+        var objData = {
+            UserId: $("#user_id").val(),
+            Truename: _trueName,
+            Idcard: _idCard,
+            Personimg: _person,
+            Personimgback: _personBack,
+        };
+        var objModel = {
+            Url:"http://testapi.qinengsoft.com/OnlinePay/kft/User_Auth_Add",
+            Data: objData,
+            Method: "Post"
+        };
+        ajaxUrl(objModel, function (ret) {
+            console.log(ret);
+            if (ret.code==1) {
+                toast("资料提交成功,等待管理员审核");
+                setTimeout(function () { window.open("Default", "_self"); }, 1500);
+            } else {
+                alert(ret.info);
+            }
+        });
+    }
+    function backOrClose(){
+            window.history.go(-1)
+        }
+</script>
+
+</html>

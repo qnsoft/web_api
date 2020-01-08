@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>我的余额</title>
+    <link href="css/Aui/api.css" rel="stylesheet" />
+    <link href="css/Aui/aui.2.0.css" rel="stylesheet" />
+    <link href="css/style/header_foot.css" rel="stylesheet" />
+    <link href="css/style/login.css" rel="stylesheet" />
+    <style>
+        body {}
+    </style>
+</head>
+
+<body>
+    <input id="user_id" type="hidden" />
+    <input id="txtBigZye" type="hidden" value="0" />
+    <input id="txtBigSxf" type="hidden" value="0" />
+
+    <input id="txtSmallZye" type="hidden" value="0" />
+    <input id="txtSmallSxf" type="hidden" value="0" />
+
+    <header class="aui-bar aui-bar-nav">
+        <a class="aui-pull-left" tapmode onclick="backOrClose()">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </a>
+        <div class="aui-title">我的余额</div>
+    </header>
+    <div id="main" class="flex-con" style="margin-top: 2.2rem">
+        <div class="registers">
+            <div class="register-input-text register-input-c1">
+                <input id="txtYue" type="text" value="0" readonly="true">
+            </div>
+            <div class="tongyi_xieyi">
+                <div class="wap_btn" onclick="btnTiXian()">提 现</div>
+            </div>
+        </div>
+
+</body>
+<script src="script/jquery/jquery-1.9.2.min.js"></script>
+<script src="script/api.js"></script>
+<script src="script/application.js"></script>
+<link href="script/myAlert/myAlert.min.css" rel="stylesheet" />
+<script src="script/myAlert/myAlert.min.js"></script>
+<script type="text/javascript">
+//setTimeout("window.location.reload(true);",5000);
+    $(document).ready(function () {
+        try {
+            var _user_info = localStorage.getItem("UserInfo");
+            if (!_user_info) {
+                $.myToast("请先登录再操作!");
+                window.open("userlogin.html", "_self");
+            } else {
+                console.log(_user_info);
+                $("#user_id").val(JSON.parse(_user_info).id);
+                iniTiXian();
+            }
+        } catch (e) {
+            //alert(e.name + ": " + e.message);
+            window.open("userlogin.html", "_self");
+        }
+    });
+</script>
+<script type="text/javascript">
+    //余下额显示 
+    function iniTiXian() {
+        var _userId = $api.val($api.byId("user_id"));
+        //加载大额
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "http://testapi.qinengsoft.com/api/login/Get_User_XykYe",
+            data: { UserId: _userId },
+            success: function (result) {
+                console.log("大余额"); console.log(result);
+                if (result.order.details.length > 0) {
+                    var _zongyue = result.order.details[0].balanceAmount;
+                    var _shouxufei = result.order.details[0].balanceAmount * 0.0010;
+                    var _xianshiyue = (_zongyue - _shouxufei) / 100;
+                    $("#txtBigZye").val((_zongyue / 100).toFixed(2));//总余额(大)
+                    $("#txtYue").val(_xianshiyue.toFixed(2));
+                    $("#txtBigSxf").val((_shouxufei / 100).toFixed(2)); //手续费(小)
+                } else {
+                    $("#txtYue").val("0");
+                }
+            }
+        });
+        //加载小额
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "http://testapi.qinengsoft.com/api/login/Get_User_XykYe_Small",
+            data: { UserId: _userId },
+            success: function (result) {
+                console.log("小余额"); console.log(result);
+                if (result.order.details.length > 0) {
+                    var _txtYue = $("#txtYue").val();
+                    var _zongyue = result.order.details[0].balanceAmount;
+                    var _shouxufei = result.order.details[0].balanceAmount * 0.0010;
+                    var _xianshiyue = (_zongyue - _shouxufei) / 100;
+                    $("#txtSmallZye").val((_zongyue / 100).toFixed(2)); //总余额(大)
+                    $("#txtYue").val((_xianshiyue + parseFloat(_txtYue)).toFixed(2));
+                    $("#txtSmallSxf").val((_shouxufei / 100).toFixed(2)); //手续费(小)
+                } else {
+                    $("#txtYue").val("0");
+                }
+            }
+        });
+    }
+    //提现操作
+    function btnTiXian() {
+        var _BigZye = $("#txtBigZye").val();
+        var _SmallZye = $("#txtSmallZye").val();
+        if (_BigZye <= 0 && _SmallZye <= 0) {
+            $.myToast("余额为0不能提现"); return;
+        }
+        var _BigSxf = $("#txtBigSxf").val();
+        var _SmallSxf = $("#txtSmallSxf").val();
+        window.open("tixian1.html?BigZye=" + _BigZye + "&SmallZye=" + _SmallZye+ "&BigSxf=" + _BigSxf+ "&SmallSxf=" + _SmallSxf, "_self");
+    }
+    function backOrClose(){
+            window.history.go(-1)
+        }
+</script>
+
+</html>

@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>预约还款列表</title>
+    <link href="css/Aui/api.css" rel="stylesheet" />
+    <link href="css/Aui/aui.2.0.css" rel="stylesheet" />
+</head>
+
+<body>
+    <input id="user_id" type="hidden" />
+    <header class="aui-bar aui-bar-nav">
+        <a class="aui-pull-left" tapmode onclick="backOrClose()">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </a>
+        <div class="aui-title">预约列表</div>
+        <div class="aui-pull-right">
+            <div class="aui-btn aui-btn-outlined" onclick="btnCancel()">取消预约</div>
+        </div>
+    </header>
+    <div class="aui-content aui-padded-t-80">
+        <ul class="aui-list aui-list-in" id="card-template"></ul>
+    </div>
+</body>
+<script id="card-template-list" type="text/x-dot-template">
+    {{for(var i = 0; i<it.length;i++){}}
+    <li class="aui-list-item">
+        <div class="aui-list-item-inner">
+            <div class="aui-list-item-title" style="color:#ff0000;">{{=(it[i].Amount/100).toFixed(0)}}</div>
+            {{? it[i].IsFinish==1}}
+            <div class="aui-list-item-right">已执行</div>
+            {{??}}
+            <div class="aui-list-item-right" style="color:#ff0000;">未执行</div>
+            {{?}}
+            <div class="aui-list-item-right">{{=it[i].ImplementTime}}</div>
+        </div>
+    </li>
+    {{}}}
+</script>
+
+<script src="script/api.js"></script>
+<script src="script/application.js"></script>
+<link href="script/jquery/toast.css" rel="stylesheet" />
+<script src="script/jquery/jquery-1.9.2.min.js"></script>
+<script src="script/artTemplate/doT.min.js"></script>
+<script src="script/jquery/toast.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        try {
+            var _user_info = localStorage.getItem("UserInfo");
+            if (!_user_info) {
+                $.myToast("请先登录再操作!");
+                window.open("userlogin.html", "_self");
+            } else {
+                console.log(_user_info);
+                $("#user_id").val(JSON.parse(_user_info).id);
+                initCardOrderJobList();
+            }
+        } catch (e) {
+            //alert(e.name + ": " + e.message);
+            window.open("userlogin.html", "_self");
+        }
+    });
+</script>
+<script type="text/javascript">
+    function initCardOrderJobList() {
+        var objModel = {
+            Url: "http://testapi.qinengsoft.com/api/xyk/Bind_Card_Order_JobList",
+            Data: {
+                UserId: $("#user_id").val(),
+                BankcardNo: getQueryString("cardId"),
+            },
+            //File: {},
+            // Headers: { userId: deviceInfo.uid },
+            Method: "Post"
+        };
+        ajaxUrl(objModel, function (ret, err) {
+            console.log(ret);
+            var objList = ret.list;
+            dotBind("card-template-list", objList, "card-template");
+        });
+    }
+    function btnCancel() {
+        if (confirm('确定要取消该还款计划?')) {
+            CreditCancel();
+        }
+    }
+    /*
+    *取消计划列表
+    */
+    function CreditCancel() {
+        var objModel = {
+            Url: "http://testapi.qinengsoft.com/api/xyk/Bind_Card_Order_JobList_Cancel",
+            Data: {
+                UserId: $("#user_id").val(),
+                BankcardNo: getQueryString("cardId"),
+            },
+            // File: {},
+            //  Headers: { userId: deviceInfo.uid },
+            Method: "Post"
+        };
+        ajaxUrl(objModel, function (ret, err) {
+            if (ret.code == 1) {
+                toast("取消还款计划成功");
+                location.reload();
+            }
+        });
+    }
+    //url传参
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+    function backOrClose(){
+            window.history.go(-1)
+        }
+</script>
+
+</html>

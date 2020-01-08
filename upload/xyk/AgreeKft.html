@@ -1,0 +1,276 @@
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="author" content="johnye">
+    <meta name="copyright" content="Copyright (c) 2002-2017 helloworld.">
+    <meta name="description" content="Hello World">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>智能收款-在线签约</title>
+    <link href="script/jquery/toast.css" rel="stylesheet" />
+    <link href="css/Aui/api.css" rel="stylesheet" />
+    <link href="css/Aui/aui.2.0.css" rel="stylesheet" />
+    <style>
+        .wap_btn {
+            height: 40px;
+            line-height: 40px;
+            background: #eb7d34;
+            text-align: center;
+            color: #fff;
+            margin-top: 20px;
+            font-size: 18px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .wap_btn:active {
+            background: #dd5f22;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav">
+        <a class="aui-pull-left" tapmode onclick="backOrClose()"> <span class="aui-iconfont aui-icon-left"></span> </a>
+        <div class="aui-title">
+            在线签约
+        </div>
+    </header>
+    <div class="aui-content aui-padded-t-60">
+        <ul class="aui-list aui-form-list">
+            <li class="aui-list-item" style="padding-top:0.4rem;padding-bottom:0.4rem;">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        签约手机号
+                    </div>
+                    <div class="aui-list-item-input">
+                        <input type="text" id="MobileNo" />
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item" style="padding-top:0.4rem;padding-bottom:0.4rem;">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">
+                        验证码
+                    </div>
+                    <div class="aui-list-item-input">
+                        <input type="text" id="AuthCode" placeholder="请输入手机验证码" style="width:60%;float: left;" />
+                        <button id="btnSendSms" onclick="btnSendSMS()"
+                            style="width:38%;margin-top: 0.3rem;padding-top:0.1rem;;padding-left:0.2rem;padding-right:0.3rem;">
+                            发送验证码
+                        </button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <!--以下是代扣协议签约参数-->
+        <input id="user_id" type="hidden" />
+        <input id="EndDate" type="hidden" />
+        <input id="HolderName" type="hidden" />
+        <input id="BankType" type="hidden" />
+        <input id="BankCardType" type="hidden" />
+        <input id="BankCardNo" type="hidden" />
+        <input id="CertificateNo" type="hidden" />
+        <input id="CustCardValidDate" type="hidden" />
+        <input id="CustCardCvv2" type="hidden" />
+
+        <!--以下是代扣协议签约确认参数-->
+        <input id="OrderNo" type="hidden" />
+        <input id="SmsSeq" type="hidden" />
+        <input type="hidden" value="0" id="mark" />
+        <div class="wap_btn" onclick="btnSubmit()">提 交</div>
+    </div>
+    <script src="script/jquery/jquery-1.9.2.min.js"></script>
+    <script src="script/api.js"></script>
+    <script src="script/application.js"></script>
+    <link href="script/myAlert/myAlert.min.css" rel="stylesheet" />
+    <script src="script/myAlert/myAlert.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            try {
+                var _user_info = localStorage.getItem("UserInfo");
+                if (_user_info == null) {
+                    $.myToast("请先登录再操作!");
+                    window.open("userlogin.html", "_self");
+                } else {
+                    $("#user_id").val(JSON.parse(_user_info).id);
+                    //初始化绑定
+                    initCardInfo();
+                }
+            } catch (e) {
+                // console.log(e)
+                window.open("userlogin.html", "_self");
+            }
+        });
+    </script>
+    <script type="text/javascript">
+        function initCardInfo() {
+            //要签约的userid
+            _user_id = getQueryString("user_id");
+            //要签约的卡号
+            _CreditCard = getQueryString("CreditCard");
+            //根据userid和卡号调取要签约的相关内容
+            var objData = {
+                UserId: _user_id,
+                BankCardNo: _CreditCard,
+            };
+            var objModel = {
+                Url: "http://testapi.qinengsoft.com/api/pay/FengFu/Card_Treaty_IsOk",
+                Data: objData,
+                Method: "Post"
+            };
+            ajaxUrl(objModel, function (ret, err) {
+                console.log(ret);
+                if (ret.code > 0) {
+                    var _year = "20" + ret.data.Expiretime.substr(ret.data.Expiretime.length - 2);
+                    var _month = ret.data.Expiretime.slice(0, 2);
+                    var _day = getLastDay(_year, _month);
+                    $("#EndDate").val(_year + _month + _day);
+                    $("#HolderName").val(ret.data.Cardholder);
+                    $("#BankType").val(ret.data.BankCode);
+                    // $("#BankCardType").val(ret.data.CardType);
+                    $("#BankCardType").val("2");
+                    $("#BankCardNo").val(ret.data.BankCardNumber);
+                    $("#MobileNo").val(ret.data.Mobile);
+                    $("#CertificateNo").val(ret.data.IdCard);
+                    $("#CustCardValidDate").val(ret.data.Expiretime);
+                    $("#CustCardCvv2").val(ret.data.Cvv2);
+                    /*
+                TreatyType: "12",//协议类型：11：借记卡扣款 12：信用卡扣款
+                */
+                } else {
+                    $.myToast("请完善要签约的卡信息!");
+                    window.open("CreditListAll.html", "_self");
+                }
+            });
+        }
+        //发送验证码操作
+        function btnSendSMS() {
+            console.log($api.byId("mark"));
+            var mark = parseInt($api.val($api.byId("mark")));
+            // alert("提交签约")
+            if (mark == 0) {
+                $api.html($api.byId("btnSendSms"), "发送中...");
+                $api.val($api.byId("mark"), "60");
+            }
+            //开始签约并获取验证码
+            SendForm();
+        }
+        //签约ajax执行
+        function SendForm() {
+            //签约post数据对象
+            var objData = {
+                UserId: $("#user_id").val(),//用户id
+                TreatyType: "12",//协议类型：11：借记卡扣款 12：信用卡扣款
+                EndDate: $("#EndDate").val(),
+                HolderName: $("#HolderName").val(),
+                BankType: $("#BankType").val(),
+                BankCardType: $("#BankCardType").val(),
+                BankCardNo: $("#BankCardNo").val(),
+                MobileNo: $("#MobileNo").val(),
+                CertificateNo: $("#CertificateNo").val(),
+                CustCardValidDate: $("#CustCardValidDate").val(),
+                CustCardCvv2: $("#CustCardCvv2").val()
+            };
+            var objModel = {
+                Url: "http://testapi.qinengsoft.com/api/pay/FengFu/Card_Treaty",
+                Data: objData,
+                Method: "Post"
+            };
+            //   console.log($api.ChannelKftSign);
+            ajaxUrl(objModel, function (ret, err) {
+                console.log("验证码发送返回：",ret);
+                console.log(err);
+                if (ret.code == 1) {
+                    //var objModel = ret.Data;
+                    $api.val($api.byId("OrderNo"), ret.data.content.merOrderNumber);
+                    //$api.val($api.byId("SmsSeq"), ret.data.smsSeq);
+                    //$api.val($api.byId("txtPhone"), objModel.telePhone);
+
+                    $api.html($api.byId("btnSendSms"), "发送成功");
+                    $api.attr($api.byId("btnSendSms"), "disabled", "disabled");
+                    $api.val($api.byId("mark"), "60");
+                    //setInterval(setI, 1000);
+                } else {
+                   // $.myToast(ret.data.failureDetails);
+                    setInterval($.myToast(ret.data.failureDetails), 2000);
+                    $api.html($api.byId("btnSendSms"), "发送失败");
+                    //$api.val($api.byId("mark"),"0");
+                }
+            });
+        }
+        //签约确认提交
+        function btnSubmit() {
+            var _OrderNo = $("#OrderNo").val();
+           // var _SmsSeq = $("#SmsSeq").val();
+            var _AuthCode = $("#AuthCode").val();
+            if ($api.stringOrEmpty(_AuthCode)) {
+                $.myToast("验证码不能为空！");
+                return;
+            }
+            var objData = {
+                UserId: $("#user_id").val(),//用户id
+                EndDate: $("#EndDate").val(),
+                BankCardType: $("#BankCardType").val(),
+                MobileNo: $("#MobileNo").val(),
+                CertificateNo: $("#CertificateNo").val(),
+                OrderNo: _OrderNo,
+               // SmsSeq: _SmsSeq,
+                AuthCode: _AuthCode,
+                HolderName: $("#HolderName").val(),
+                BankCardNo: $("#BankCardNo").val(),
+                CustCardValidDate: $("#CustCardValidDate").val(),
+                CustCardCvv2: $("#CustCardCvv2").val(),
+                TreatyType: "12"
+            }
+            var objModel = {
+                Url: "http://testapi.qinengsoft.com/api/pay/FengFu/Card_Treaty_Confirm",
+                Data: objData,
+                Method: "Post"
+            }
+            ajaxUrl(objModel, function (ret, err) {
+                console.log(ret);
+                if (ret.code > 0) {
+                    setTimeout(() => {
+                        $.myToast("签约成功!");
+                        window.open("index.html", "_self");
+                    }, 500);
+                } else{
+                  //  setTimeout(() => {
+                        debugger;
+                    alert(JSON.stringify(ret));
+                  // }, 500);
+                }
+            });
+        }
+        //url传参
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+        //获得某月的最后一天  
+        function getLastDay(year, month) {
+            var new_year = year;    //取当前的年份          
+            var new_month = month++;//取下一个月的第一天，方便计算（最后一天不固定）          
+            if (month > 12) {
+                new_month -= 12;        //月份减          
+                new_year++;            //年份增          
+            }
+            var new_date = new Date(new_year, new_month, 1);                //取当年当月中的第一天          
+            return (new Date(new_date.getTime() - 1000 * 60 * 60 * 24)).getDate();//获取当月最后一天日期          
+        }  
+        function backOrClose(){
+            window.history.go(-1)
+        }
+    </script>
+</body>
+
+</html>

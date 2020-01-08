@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="">
+    <title>消费明细</title>
+    <link href="css/Aui/api.css" rel="stylesheet" />
+    <link href="css/Aui/aui.2.0.css" rel="stylesheet" />
+    <link type="text/css" rel="stylesheet" href="xinyongka/css/style.css">
+</head>
+<body>
+        <input id="user_id" type="hidden" />
+    <header class="aui-bar aui-bar-nav">
+        <a class="aui-pull-left" tapmode onclick="backOrClose()">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </a>
+        <div class="aui-title">消费明细</div>
+        <div class="aui-pull-right"></div>
+    </header>
+    <div class="aui-content aui-padded-t-80" style="height:80px;margin-top:-10px">
+        <h3 style="width:50%;float:left;text-align: center;background: #fff;line-height:40px"><a href="xfmxlist.html">智能养卡明细</a></h3><h3 style="width:50%;float:left;text-align: center;background: #cec7c7;line-height: 40px"><a href="xfmxlist.html">智能收款明细</a></h3>
+    </div>
+    <div class="aui-content aui-padded-t-80" style="margin-top:-30px">
+        <ul class="aui-list aui-list-in" id="card-template"></ul>
+    </div>
+    <div id="footer">
+            <ul id="footer_list">
+                <li class="list_li  f_active">
+                    <a href="index.html" class="text"><img src="xinyongka/images/foot_m_icon1.png"><span>首页</span></a>
+                </li>
+                <li class="list_li  " >
+                    <a href="creditList.html" class="text"><img src="xinyongka/images/foot_m_icon2.png"><span>智能还款</span></a>
+                </li>
+                <li class="list_li  ">
+                    <a href="gather1.html" class="text"><img src="xinyongka/images/foot_m_icon3.png"><span>快速收款</span></a>
+                </li>
+                <li class="list_li">
+                    <a href="userIndex.html" class="text"><img src="xinyongka/images/foot_m_icon4.png"><span>我的</span></a>
+                </li>
+            </ul>
+        </div>
+        
+</body>
+<script id="card-template-list" type="text/x-dot-template">
+    <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+               <div class="aui-list-item-title" style="color:#000;width:25%;line-height: 40px;text-align: center">卡号</div>
+               <div class="aui-list-item-title" style="color:#000;width:8%;line-height: 40px;text-align: center">金额</div>
+               <div class="aui-list-item-title" style="color:#000;width:8%;line-height: 40px;text-align: center">结果</div>
+               <div class="aui-list-item-title" style="color:#000;width:15%;line-height: 40px;text-align: center">时间</div>
+               <div class="aui-list-item-title" style="color:#000;width:8%;line-height: 40px;text-align: center">详情</div>
+            </div>
+           </li>
+    {{for(var i = 0; i<it.length;i++){}}
+    <li class="aui-list-item">
+        <div class="aui-list-item-inner">
+            <div class="aui-list-item-title" style="color:#000;width:25%;text-align:center;font-size:0.7rem">
+                <span style="line-height:16px;color:#0000EE;">{{=it[i].Bankcardno}}[出]</span>
+                <span style="line-height:16px;color:#ff0000">{{=it[i].Merchantbankaccountno}}[入]</span>
+            </div>
+            <div class="aui-list-item-title" style="color:#ff0000;width:8%;text-align:center;font-size:0.7rem">￥{{=(it[i].Amount/100).toFixed(0)}}</div>
+
+            {{? it[i].ReturnB.indexOf("Status:1")>=0||it[i].ReturnB.indexOf("成功")>=0}}
+            <div class="aui-list-item-right" style="color:#0000EE;width:8%;text-align:center;font-size:0.7rem">成功</div>
+            {{??}}
+            <div class="aui-list-item-right" style="color:#ff0000;width:8%;text-align:center;font-size:0.7rem">失败</div>
+            {{?}}
+            <div class="aui-list-item-right" style="color:#ff0000;width:15%;text-align:center;font-size:0.65rem">{{=new Date(it[i].AddTime).Format("yyyy-MM-dd hh:mm:ss")}}</div>
+            <div class="aui-list-item-right" style="color:#ff0000;width:8%;text-align:center;font-size:0.72rem"  onclick="xiangqing('{{=it[i].ReturnA}}','{{=it[i].ReturnB}}')">详情</div>
+        </div>
+    </li>
+    {{}}}
+</script>
+
+<script src="script/api.js"></script>
+<script src="script/application.js"></script>
+<link href="script/jquery/toast.css" rel="stylesheet" />
+<script src="script/jquery/jquery-1.9.2.min.js"></script>
+<script src="script/artTemplate/doT.min.js"></script>
+<script src="script/jquery/toast.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        try {
+            var _user_info = localStorage.getItem("UserInfo");
+            if (!_user_info) {
+                $.myToast("请先登录再操作!");
+                window.open("userlogin.html", "_self");
+            } else {
+                console.log(_user_info);
+                $("#user_id").val(JSON.parse(_user_info).id);
+                initCardOrderJobList();
+            }
+        } catch (e) {
+            //alert(e.name + ": " + e.message);
+            window.open("userlogin.html", "_self");
+        }
+    });
+</script>
+<script type="text/javascript">
+function initCardOrderJobList(){
+    var objModel = {
+            Url: "http://testapi.qinengsoft.com/api/xyk/Bind_User_Order_List",
+            Data: { 
+                UserId: $("#user_id").val(),
+                BankcardNo: getQueryString("cardId"),
+            },
+            Method: "Post"
+        };
+        ajaxUrl(objModel, function (ret, err) {
+            console.log(ret);
+            var objList = ret.list;
+            dotBind("card-template-list", objList, "card-template");
+        });
+    }
+    function xiangqing(nr_a,nr_b){
+       // var obj_A =JSON.parse(JSON.stringify(nr_a));
+      //  var obj_B =JSON.parse(JSON.stringify(nr_b));
+       //  console.log(obj_A);
+       // console.log(obj_B);
+        //console.log(obj_A);
+        var _str_A=nr_a.indexOf("Status:1")>=0?"出金成功!":"出金失败："+nr_a
+        var _str_B=nr_b.indexOf("Status:1")>=0||nr_b.indexOf("成功")>=0?"入金成功!":"："+nr_b
+       alert(_str_A+"=>"+_str_B);
+    }
+    //url传参
+    function getQueryString(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) return unescape(r[2]); return null;
+            }
+//日期格式化
+Date.prototype.Format = function(fmt)   
+{ //author: meizz   
+  var o = {   
+    "M+" : this.getMonth()+1,                 //月份   
+    "d+" : this.getDate(),                    //日   
+    "h+" : this.getHours(),                   //小时   
+    "m+" : this.getMinutes(),                 //分   
+    "s+" : this.getSeconds(),                 //秒   
+    "q+" : Math.floor((this.getMonth()+3)/3), //季度   
+    "S"  : this.getMilliseconds()             //毫秒   
+  };   
+  if(/(y+)/.test(fmt))   
+    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));   
+  for(var k in o)   
+    if(new RegExp("("+ k +")").test(fmt))   
+  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
+  return fmt;   
+} 
+function backOrClose(){
+            window.history.go(-1)
+        } 
+</script>
+</html>

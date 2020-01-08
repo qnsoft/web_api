@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="author" content="johnye">
+    <meta name="copyright" content="Copyright (c) 2002-2018 helloworld.">
+    <meta name="description" content="Hello World">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>预约还款</title>
+    <link href="xinyongka/css/api.css" rel="stylesheet" />
+    <link href="xinyongka/css/aui.css" rel="stylesheet" />
+    <link href="xinyongka/css/style.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="header" >
+        <div class="back" onclick="backOrClose()">
+            <a href="#"><img src="xinyongka/images/jiantou.png"></a>
+        </div>
+        <div class="titles">智能还卡</div>
+    </div>
+    <!----header the end------>
+
+    <div id="main" class="flex-con">
+
+
+        <!--xyk_tit end-->
+        <div class="ka_cont_bg2" style="margin-top: 0px">
+            <ul class="hy_boxs">
+                <li class="tboxs_inp">
+                    <span>还款金额</span>
+                    <input type="text" id="txtMoney" placeholder="请输入需还款金额" style="padding-left:65px;">
+                </li>
+                <!---the end--->
+
+                <li class="tboxs_inp">
+                    <span>还款开始日期</span>
+                    <input type="text" id="txtBeginTime" onclick="btnShowTime(this)" placeholder="请输入还款开始日期，格式月年"
+                        readonly style="padding-left:65px;" />
+                </li>
+                <!---the end--->
+                <li class="tboxs_inp"><span>还款结束日期</span><input type="text" onclick="btnShowTime(this)"
+                        placeholder="请输入还款开始日期，格式月年" style="padding-left:65px;" id="txtEndTime" readonly="readonly" />
+                </li>
+                <!---the end--->
+                <li class="tboxs_inp">
+                    <span>每天还款笔数</span>
+                    <select id="selNumber" class="aui-text-right" style="width:50px;float:right;">
+                        <option value="1" selected="selected">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </li>
+                <!---the end--->
+            </ul>
+            <div class="tijiao_btn"><input type="button" onclick="createBill()" value="确定账单"></div>
+        </div>
+        <div class="hk_warp">
+            <div class="hk_conts">
+                <div class="hk_tops">
+                    <dl>
+                        <span>总笔数</span>
+                        <span id="txtToNumber">0</span>
+                    </dl>
+
+                    <dl>
+                        <span>预留金额</span>
+                        <span id="txtMoneyBil">¥0.00</span>
+                    </dl>
+                    <dl>
+                        <span>手续费</span>
+                        <span id="txtMoneyRate">¥</span>
+                    </dl>
+                </div>
+                <!--hk_tops end-->
+                <div class="hk_btms">
+                    <dl class="hk_btms_one">
+                        <span class="lf">还款总金额(元)</span>
+                        <span class="rt"></span>
+                    </dl>
+                    <dl class="clear"></dl>
+                    <dl class="hk_btms_two">
+                        <span id="txtMoney2">0.00</span>
+                        <a href="javascript::" onclick="createBillConfirm()">提交账单</a>
+                    </dl>
+                </div>
+
+            </div>
+        </div>
+        <div id="txtNotice" style="color: #ff0000;text-align: center"></div>
+    </div>
+    <input id="user_id" type="hidden" />
+    <input id="order_parent_id" type="hidden" />
+    <input id="order_list" type="hidden" />
+    <input id="GyfZc" type="hidden" value="no" />
+    <input id="GyfQy" type="hidden" value="no" />
+    <input id="SubMerchId" type="hidden"/>
+    <div id="footer">
+        <ul id="footer_list">
+            <li class="list_li  ">
+                <a href="index.html" class="text"><img src="xinyongka/images/foot_m_icon1.png"><span>首页</span></a>
+            </li>
+            <li class="list_li  f_active">
+                <a href="creditList.html" class="text"><img
+                        src="xinyongka/images/foot_m_icon2.png"><span>智能还款</span></a>
+            </li>
+            <li class="list_li  ">
+                <a href="gather1.html" class="text"><img src="xinyongka/images/foot_m_icon3.png"><span>快速收款</span></a>
+            </li>
+            <li class="list_li  ">
+                <a href="userIndex.html" class="text"><img src="xinyongka/images/foot_m_icon4.png"><span>我的</span></a>
+            </li>
+        </ul>
+    </div>
+
+
+    <script src="script/jquery/jquery-1.9.2.min.js"></script>
+    <script src="script/api.js"></script>
+    <script src="script/application.js"></script>
+    <link href="script/myAlert/myAlert.min.css" rel="stylesheet" />
+    <script src="script/myAlert/myAlert.min.js"></script>
+    <script src="script/Mui/mui.js"></script>
+    <link href="script/Mui/mui.picker.min.css" rel="stylesheet" />
+    <script src="script/Mui/mui.picker.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            try {
+                var _user_info = localStorage.getItem("UserInfo");
+                if (_user_info == null) {
+                    $.myToast("请先登录再操作!");
+                    window.open("userlogin.html", "_self");
+                } else {
+                    $("#user_id").val(JSON.parse(_user_info).id);
+                   
+                    initPickerAd();
+                    Get_Gyf_QY();//获取商户注册与邦卡
+                    //判断如果未登录或未实名强制重新登陆
+                    console.log(_user_info);
+                    if (_user_info == null) {
+                        window.open("userlogin.html", "_self");
+                    } else if (_user_info != null) {
+                        var _IdCard = JSON.parse(_user_info).IdCard
+                        if (_IdCard == "") {
+                            localStorage.clear(); //清空缓存退出登录
+                            window.open("userlogin.html", "_self");
+                        }
+                    }
+                }
+            } catch (e) {
+                //alert(e.name + ": " + e.message);
+                window.open("userlogin.html", "_self");
+            }
+        });
+    </script>
+    <script type="text/javascript">
+        //确定账单
+        function createBill() {
+            var _money = $api.val($api.byId("txtMoney"));
+            var _beginTime = $api.val($api.byId("txtBeginTime"));
+            var _endTime = $api.val($api.byId("txtEndTime"));
+            var _number = $api.val($api.byId("selNumber"));
+            var _diffTime = getDiffDate(_beginTime, _endTime);
+            var _str_diff = "";
+            for (var index in _diffTime) {
+                _str_diff += _diffTime[index] + "|"
+                // console.log(_diffTime[index]);
+                //  console.log(index);
+            }
+            var objData = {
+                BankCardNo: getQueryString("cardId"),
+                Amount: _money,
+                Number: _number,
+                BeginTime: _beginTime,
+                EndTime: _endTime,
+                DiffTime: _str_diff,
+                UserId: $("#user_id").val(),
+            };
+            if ($api.stringOrEmpty(_money)) {
+                $.myToast("请输入还款金额"); return;
+            }
+            if ($api.stringOrEmpty(_beginTime)) {
+                $.myToast("请输入开始还款日期"); return;
+            }
+            if ($api.stringOrEmpty(_endTime)) {
+                $.myToast("请输入还款结束日期"); return;
+            }
+            var objModel = {
+                Url: "http://testapi.qinengsoft.com/OnlinePay/kft/Get_Create_ZnDhList",
+                Data: objData,
+                //File: {},
+                // Headers: { userId: _userId },
+                Method: "Post"
+            };
+            ajaxUrl(objModel, function (ret) {
+                console.log(ret);
+                //  debugger;
+                if (ret.code == 1) {
+                    $("#order_parent_id").val(ret.order_parent_id);
+                    console.log(ret.data)
+                    $("#order_list").val(JSON.stringify(ret.data));
+                    $api.html($api.byId("txtMoney2"), "￥" + ret.order.all_amount.toFixed(2));
+                    $api.html($api.byId("txtMoneyBil"), "￥" + ret.order.yuliujin.toFixed(2));
+                    $api.html($api.byId("txtMoneyRate"), "￥" + ret.order.zongfeiyong.toFixed(2));
+                    $api.html($api.byId("txtToNumber"), ret.order.all_sum);
+                    $api.html($api.byId("txtNotice"), "注意:卡内余额不能小于￥ " + ret.order.yuliujin.toFixed(2));
+                }
+                else {
+                    $.myToast(ret.info);
+                }
+            });
+        }
+        /*
+        *提交确认账单
+        */
+        function createBillConfirm() {
+            var objData = {
+                Ok: "yes",
+                UserId: $("#user_id").val(),
+                BankCardNo: getQueryString("cardId"),
+                List_Order: $("#order_list").val(),
+            };
+
+            var objModel = {
+                Url: "http://testapi.qinengsoft.com/OnlinePay/kft/Get_Create_ZnDhList_Confirm",
+                Data: objData,
+                Method: "Post"
+            };
+            ajaxUrl(objModel, function (ret, err) {
+                console.log(ret);
+                // debugger;
+                if (ret.code == 1) {
+                    $.myToast("账单创建成功!");
+                    window.open("creditBillList.html?cardId=" + getQueryString("cardId"), "_self");
+                }
+                else {
+                    $.myToast(ret.info);
+                    return
+                }
+            });
+        }
+        var dtPicker02 = "";
+        function initPicker(objId) {
+            var _dtNow = new Date();
+            var _yeaer = _dtNow.getFullYear();
+            var _month = _dtNow.getMonth();
+            var _day = _dtNow.getDate() + 1;
+            dtPicker02 = new mui.DtPicker({
+                'type': 'date',
+                beginDate: new Date(_yeaer, _month, _day),//设置开始日期  --月份：索引是0；
+                endDate: new Date(2024, 11, 31),//设置结束日期
+            });
+        }
+        //初始化日期
+        function initPickerAd() {
+            initPicker("txtBeginTime");
+            initPicker("txtEndTime");
+             //初始化判断快付费通小额是否签约 2019-09-18 弃用小额 所以暂时这里不做处理
+            // var objData = {
+            //     "UserId": $("#user_id").val(),
+            //     "BankCardNo": getQueryString("cardId"),
+            // };
+            // var objModel = {
+            //     Url: "http://testapi.qinengsoft.com/OnlinePay/kft/Card_Treaty_IsOk_Samll",
+            //     Data: objData,
+            //     Method: "Post"
+            // };
+            // ajaxUrl(objModel, function (ref) {
+            //      console.log(ref);
+            //      //debugger;
+            //     // $("#user_code").val(ref.code);
+            //     if (ref.code != 1) {
+            //         var _cardId = getQueryString("cardId");
+            //         window.location.href="AgreeKftSmall.html?file=makeList&CreditCard=" + _cardId
+            //        // window.open("AgreeKftSmall.html?file=makeList&CreditCard=" + _cardId, "_self");
+            //     }
+
+            // });
+
+
+        }
+        function btnShowTime(objId) {
+            dtPicker02.show(function (selectItems) {
+                console.log(selectItems.text);//2016-10-11
+                objId.value = selectItems.text;
+            });
+        }
+        //计算时间间隔日历
+        function getDiffDate(start, end) {
+            var startTime = getDate(start);
+            var endTime = getDate(end);
+            var dateArr = [];
+            while ((endTime.getTime() - startTime.getTime()) >= 0) {
+                var year = startTime.getFullYear();
+                //  console.log(year);
+                var month = startTime.getMonth().toString().length === 1 ? (parseInt(startTime.getMonth().toString(), 10) + 1) : (startTime.getMonth() + 1);
+                var day = startTime.getDate().toString().length === 1 ? "0" + startTime.getDate() : startTime.getDate();
+               var _str_month = ""
+               if(month.toString().length === 1) {
+                  _str_month = "0" + month
+                }
+                else{
+                    _str_month = month
+                }
+                dateArr.push(year + "-" + _str_month + "-" + day);
+                startTime.setDate(startTime.getDate() + 1);
+            }
+            return dateArr;
+        }
+
+
+      //获取当前用户工易付是否注册，当前出金卡是否签约
+      function Get_Gyf_QY() {
+            var _user_info = localStorage.getItem("UserInfo");
+            //注册验证
+            var objData_zc = {
+                UserId: $("#user_id").val(),
+                Name: JSON.parse(_user_info).truename,
+                Phone: JSON.parse(_user_info).telephone,
+                IdNo: JSON.parse(_user_info).IdCard,
+                CardId: getQueryString("cardId")
+            }
+            $.ajax({ //商户注册验证请求
+                type: "POST",
+                dataType: "json",
+                url: "http://testapi.qinengsoft.com/api/pay/gongyifu/Gyf_IsZhuCe",//判断当前账户是否在工易付注册
+                data: objData_zc,
+                success: function (result) {
+                    console.log(result);
+                    //debugger;
+                    if (result.code == 1) {
+                        $("#GyfZc").val("yes");
+                        $("#SubMerchId").val(result.data.Submerchid);
+                    }
+                }
+                ,
+                error: function () {
+                    // alert("异常！");
+                    console.log("商户注册验证返回异常！");
+                }
+            });
+            //签约验证
+            var objData_qy = {
+                UserId: $("#user_id").val(),
+                CardId: getQueryString("cardId")
+            }
+            $.ajax({ //商户注册验证请求
+                type: "POST",
+                dataType: "json",
+                url: "http://testapi.qinengsoft.com/api/pay/gongyifu/Gyf_IsQianYue",//判断当前卡是否在工易付签约
+                data: objData_qy,
+                success: function (result) {
+                    if (result.code == 1) {
+                        $("#GyfQy").val("yes");
+                    } else {
+                        //localStorage.clear(); //清空缓存
+                        var _SubMerchId=$("#SubMerchId").val();
+                        var _BankCardNo=getQueryString("cardId")
+                        //跳转到签约
+                       // window.open("http://testapi.qinengsoft.com/api/pay/gongyifu/Gyf_IsQianYueHtml?UserId=" + objData_zc.UserId + "&SubMerchId=" + _SubMerchId + "&Name=" + objData_zc.Name + "&Phone=" + objData_zc.Phone + "&IdNo=" + objData_zc.IdNo + "&CardId=" + _BankCardNo, "_self");
+                       window.open("gyf_mobile.html?UserId=" + objData_zc.UserId + "&SubMerchId=" + _SubMerchId + "&Phone=" + objData_zc.Phone + "&IdNo=" + objData_zc.IdNo + "&CardId=" + _BankCardNo, "_self");
+                    }
+                }
+                ,
+                error: function () {
+                    // alert("异常！");
+                    console.log("签约验证返回异常！");
+                }
+            });
+
+        }
+
+
+        //根据字符串获取标准时间
+        function getDate(datestr) {
+            var temp = datestr.split("-");
+            if (temp[1] === '01') {
+                temp[0] = parseInt(temp[0], 10) - 1;
+                temp[1] = '12';
+            } else {
+                temp[1] = parseInt(temp[1], 10) - 1;
+            }
+            //new Date()的月份入参实际都是当前值-1
+            var date = new Date(temp[0], temp[1], temp[2]);
+            return date;
+        }
+
+        //url传参
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+        function backOrClose(){
+            window.history.go(-1)
+        }
+    </script>
+
+</body>
+
+</html>

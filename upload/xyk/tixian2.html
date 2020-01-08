@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="author" content="johnye">
+    <meta name="copyright" content="Copyright (c) 2002-2017 helloworld.">
+    <meta name="description" content="Hello World">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>提现确认</title>
+    <link href="css/Aui/api.css" rel="stylesheet" />
+    <link href="css/Aui/aui.2.0.css" rel="stylesheet" />
+    <link href="script/jquery/toast.css" rel="stylesheet" />
+</head>
+
+<body>
+    <input id="user_id" type="hidden" />
+    <header class="aui-bar aui-bar-nav" id="header">
+        <a class="aui-pull-left" tapmode onclick="backOrClose()">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </a>
+        <div class="aui-title">余额提现</div>
+    </header>
+    <div class="aui-content aui-padded-t-80">
+        <div class="aui-list aui-form-list">
+            <div class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label">金额</div>
+                    <div class="aui-list-item-input">
+                        <input type="number" id="Amount" readonly="true" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--以下是代扣协议签约参数-->
+    <input id="user_id" type="hidden" />
+    <input id="CustBankAccountNo" type="hidden" />
+    <!--提现结果存储-->
+    <input id="Big_jieguo" type="hidden" value="0" />
+    <input id="Small_jieguo" type="hidden" value="0" />
+    <!--
+     <input id="Amount" type="hidden"/>
+     <input id="RateAmount" type="hidden"/>
+     -->
+    <div class="aui-content aui-margin-t-10">
+        <button class="aui-btn aui-btn-block aui-btn-danger" id="tijiao" onclick="btnSubmit()">提 交</button>
+    </div>
+    <script src="script/api.js"></script>
+    <script src="script/application.js"></script>
+    <script src="script/jquery/jquery-1.9.2.min.js"></script>
+    <script src="script/jquery/toast.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            try {
+                var _user_info = localStorage.getItem("UserInfo");
+                if (_user_info == null) {
+                    $.myToast("请先登录再操作!");
+                    window.open("userlogin.html", "_self");
+                } else {
+                    //初始化绑定
+                    $("#user_id").val(JSON.parse(_user_info).id);
+                    var _BankCardNo = getQueryString("CreditCard");
+                    var _Amount = (parseFloat(getQueryString("BigZye")) + parseFloat(getQueryString("SmallZye"))).toFixed(2);
+                    $("#CustBankAccountNo").val(_BankCardNo);
+                    $("#Amount").val((_Amount-_Amount*0.0010).toFixed(2));
+
+                }
+            } catch (e) {
+                //alert(e.name + ": " + e.message);
+                window.open("userlogin.html", "_self");
+            }
+        });
+    </script>
+    <script type="text/javascript">
+
+        function btnSubmit() {
+            var _money = $api.val($api.byId("txtMoney"));
+            if (_money <= 0) {
+                toast("余额为0不能提现"); return;
+            }
+            $('#tijiao').attr("disabled", "disabled");
+            $('#tijiao').css("background-color", "#DDECFC");
+            toast("已提交银行处理请稍后......");
+            var _big_yue=parseFloat(getQueryString("BigZye"));
+            var _small_yue=parseFloat(getQueryString("SmallZye"));
+            //大额提现开始
+            if (_big_yue > 0) {
+                var postData1 = {
+                    // UserId: $("#user_id").val(),
+                    CustBankAccountNo: getQueryString("CreditCard"),
+                    Amount: getQueryString("BigZye"),
+                    RateAmount: getQueryString("BigSxf"),
+                    // RateAmount: "7"
+                };
+                var objModel1 = {
+                    Url: "http://testapi.qinengsoft.com/api/xyk/Bind_Card_TiXian",
+                    Data: postData1,
+                    Method: "Post"
+                };
+                // console.log(postData1);
+                ajaxUrl(objModel1, function (ret) {
+                    console.log(ret);
+                    // debugger;
+                    toast(ret.info);
+                });
+            }
+            //大额提现结束
+            //小额提现开始
+            if (_small_yue > 0) {
+                var postData2 = {
+                    CustBankAccountNo: getQueryString("CreditCard"),
+                    Amount: getQueryString("SmallZye"),
+                    RateAmount: getQueryString("SmallSxf"),
+                };
+                var objModel2 = {
+                    Url: "http://testapi.qinengsoft.com/api/xyk/Bind_Card_TiXian_Small",
+                    Data: postData2,
+                    Method: "Post"
+                };
+                ajaxUrl(objModel2, function (ret) {
+                    console.log(ret);
+                    //debugger;
+                    toast(ret.info);
+                });
+            }
+            //执行完跳回主页
+            window.open("index.html", "_self");
+        }
+        //url传参
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+        function backOrClose(){
+            window.history.go(-1)
+        }
+    </script>
+</body>
+
+</html>

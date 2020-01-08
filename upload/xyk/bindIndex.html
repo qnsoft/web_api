@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>选择银行</title>
+    <link href="css/Aui/api.css" rel="stylesheet" />
+    <link href="css/Aui/aui.2.0.css" rel="stylesheet" />
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left" tapmode onclick="backOrClose()">
+            <div class="aui-iconfont aui-icon-left"></div>
+        </div>
+        <div class="aui-title">选择银行</div>
+    </header>
+    <input id="user_id" type="hidden" />
+    <div class="aui-content aui-padded-t-40" style="margin-top:50px;margin-bottom:50px">
+        <ul class="aui-list aui-media-list" id="bank-template"></ul>
+    </div>
+    <div class="aui-content aui-padded-t-40"
+        style="position:fixed;bottom:0;left:0; width:100%;height:50px;background: #dbd8d8">
+        <div class="aui-btn aui-btn-outlined aui-btn-block" style="height:50px;line-height:30px" onclick="btnAddCard()">
+            下一步</div>
+    </div>
+</body>
+<script src="script/api.js"></script>
+<script src="script/application.js"></script>
+<script src="script/jquery/jquery-1.9.2.min.js"></script>
+<script src="script/artTemplate/doT.min.js"></script>
+
+<link href="script/jquery/toast.css" rel="stylesheet" />
+<script src="script/jquery/toast.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        try {
+            var _user_info = localStorage.getItem("UserInfo");
+            if (!_user_info) {
+                $.myToast("请先登录再操作!");
+                window.open("userlogin.html", "_self");
+            } else {
+                console.log(_user_info);
+                $("#user_id").val(JSON.parse(_user_info).id);
+                initBankList();
+            }
+        } catch (e) {
+            //alert(e.name + ": " + e.message);
+            window.open("userlogin.html", "_self");
+        }
+    });
+</script>
+<script id="bank-template-list" type="text/x-dot-template">
+    {{for(var i = 0; i<it.length;i++){}}
+    <li class="aui-list-item aui-list-item-middle">
+        <div class="aui-media-list-item-inner">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-text">
+                    <div class="aui-list-item-title aui-font-size-14">{{=it[i].Bankname}}</div>
+                    <div class="aui-list-item-right">
+ 
+                        <input type="radio" class="inputChannel" name="Bankname" style="width:1.2rem;height: 1.2rem;" alg="{{=it[i].Bankcode}}" value="{{=it[i].Bankname}}" attrId="{{=it[i].DefaultId}}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+    {{}}}
+</script>
+<script type="text/javascript">
+    function initBankList() {
+        var objData = {
+        };
+        var objModel = {
+            Url: "http://testapi.qinengsoft.com/OnlinePay/kft/Bind_Bank_List",
+            Data: objData,
+            //File: {},
+            //Headers: {},
+            Method: "Post"
+        };
+        ajaxUrl(objModel, CardSucc);
+    }
+    function CardSucc(ret, err) {
+        console.log(ret);
+        if (ret.length > 0) {
+            dotBindAppend("bank-template-list", ret, "bank-template");
+        }
+    }
+    function btnAddCard() {
+        var _Bancode = $("input[name='Bankname']:checked").attr("alg");
+        var _Bankname = $api.val($api.dom("input[name='Bankname']:checked"));
+        if ($api.stringOrEmpty(_Bankname)) {
+            toast("请选择支持银行"); return;
+        }
+        var cmdUrl = "bindCreditCard.html?Bancode=" + _Bancode + "&Bankname=" + escape(_Bankname);
+        window.open(cmdUrl, "_self");
+    }
+    function backOrClose(){
+            window.history.go(-1)
+        }
+</script>
+
+</html>
