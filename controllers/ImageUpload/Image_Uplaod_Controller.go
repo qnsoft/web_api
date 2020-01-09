@@ -13,8 +13,8 @@ import (
 	"strings"
 	"time"
 
-	"qnsoft/web_api/controllers/ImageUpload/imghand"
-	"qnsoft/web_api/controllers/Token"
+	"github.com/qnsoft/web_api/controllers/ImageUpload/imghand"
+	"github.com/qnsoft/web_api/controllers/Token"
 
 	"github.com/astaxie/beego"
 )

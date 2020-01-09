@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os/exec"
 	"time"
-	"qnsoft/web_api/models/shop"
-	"qnsoft/web_api/utils/DbHelper"
-	"qnsoft/web_api/utils/ErrorHelper"
+	"github.com/qnsoft/web_api/models/shop"
+	"github.com/qnsoft/utils/DbHelper"
+	"github.com/qnsoft/utils/ErrorHelper"
 
 	"github.com/astaxie/beego"
 )

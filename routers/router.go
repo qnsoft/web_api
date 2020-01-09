@@ -1,16 +1,16 @@
 package routers
 
 import (
-	"qnsoft/web_api/controllers"
-	"qnsoft/web_api/controllers/Demo"
-	"qnsoft/web_api/controllers/Duijie"
-	"qnsoft/web_api/controllers/ImageUpload"
-	"qnsoft/web_api/controllers/OnlinePay"
-	"qnsoft/web_api/controllers/Sms"
-	"qnsoft/web_api/controllers/Token"
-	api "qnsoft/web_api/controllers/api/login"
-	"qnsoft/web_api/controllers/api/xyk"
-	"qnsoft/web_api/routers/plugs"
+	"github.com/qnsoft/web_api/controllers"
+	"github.com/qnsoft/web_api/controllers/Demo"
+	"github.com/qnsoft/web_api/controllers/Duijie"
+	"github.com/qnsoft/web_api/controllers/ImageUpload"
+	"github.com/qnsoft/web_api/controllers/OnlinePay"
+	"github.com/qnsoft/web_api/controllers/Sms"
+	"github.com/qnsoft/web_api/controllers/Token"
+	api "github.com/qnsoft/web_api/controllers/api/login"
+	"github.com/qnsoft/web_api/controllers/api/xyk"
+	"github.com/qnsoft/web_api/routers/plugs"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/plugins/cors"

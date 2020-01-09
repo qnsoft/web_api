@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"strconv"
 	"time"
-	"qnsoft/web_api/models/shop"
-	"qnsoft/web_api/utils/DateHelper"
-	"qnsoft/web_api/utils/DbHelper"
-	"qnsoft/web_api/utils/ErrorHelper"
-	"qnsoft/web_api/utils/JobHelper"
-	php2go "qnsoft/web_api/utils/Php2go"
-	"qnsoft/web_api/utils/WebHelper"
+	"github.com/qnsoft/web_api/models/shop"
+	"github.com/qnsoft/utils/DateHelper"
+	"github.com/qnsoft/utils/DbHelper"
+	"github.com/qnsoft/utils/ErrorHelper"
+	"github.com/qnsoft/utils/JobHelper"
+	php2go "github.com/qnsoft/utils/Php2go"
+	"github.com/qnsoft/utils/WebHelper"
 )
 
 func Taobao_joblist() {

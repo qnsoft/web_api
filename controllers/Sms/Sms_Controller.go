@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"qnsoft/web_api/controllers/Token"
+	"github.com/qnsoft/web_api/controllers/Token"
 
 	"github.com/astaxie/beego"
 )

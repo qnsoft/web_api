@@ -2,13 +2,14 @@ package FengFu
 
 import (
 	"fmt"
-	"qnsoft/online_pay/utils/pay/fengfukjzf"
-	"qnsoft/online_pay/utils/pay/paytool"
-	"qnsoft/qn_card/controllers/Token"
-	"qnsoft/qn_card/models/shop"
-	"qnsoft/web_api/utils/DbHelper"
-	"qnsoft/web_api/utils/ErrorHelper"
 	"strconv"
+
+	"github.com/qnsoft/online_pay/utils/pay/fengfukjzf"
+	"github.com/qnsoft/online_pay/utils/pay/paytool"
+	"github.com/qnsoft/web_api/controllers/Token"
+	"github.com/qnsoft/web_api/models/shop"
+	"github.com/qnsoft/utils/DbHelper"
+	"github.com/qnsoft/utils/ErrorHelper"
 )
 
 /**

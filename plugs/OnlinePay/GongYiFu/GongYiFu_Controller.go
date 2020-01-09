@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"strconv"
 	"time"
-	GongYiFu "qnsoft/online_pay/utils/pay/gongyifu"
-	"qnsoft/web_api/controllers/Token"
-	"qnsoft/web_api/models/shop"
-	date "qnsoft/web_api/utils/DateHelper"
-	"qnsoft/web_api/utils/DbHelper"
-	"qnsoft/web_api/utils/ErrorHelper"
-	"qnsoft/web_api/utils/StringHelper"
+	GongYiFu "github.com/qnsoft/online_pay/utils/pay/gongyifu"
+	"github.com/qnsoft/web_api/controllers/Token"
+	"github.com/qnsoft/web_api/models/shop"
+	date "github.com/qnsoft/utils/DateHelper"
+	"github.com/qnsoft/utils/DbHelper"
+	"github.com/qnsoft/utils/ErrorHelper"
+	"github.com/qnsoft/utils/StringHelper"
 )
 
 /**

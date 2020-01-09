@@ -14,9 +14,9 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"qnsoft/web_api/utils/DateHelper"
-	"qnsoft/web_api/utils/ErrorHelper"
-	php2go "qnsoft/web_api/utils/Php2go"
+	"github.com/qnsoft/utils/DateHelper"
+	"github.com/qnsoft/utils/ErrorHelper"
+	php2go "github.com/qnsoft/utils/Php2go"
 
 	"github.com/ajg/form"
 	"golang.org/x/crypto/pkcs12"

@@ -1,7 +1,7 @@
 package jobs
 
 import (
-	"lisijie/cron"
+	"github.com/lisijie/cron"
 	"sync"
 
 	"github.com/astaxie/beego"

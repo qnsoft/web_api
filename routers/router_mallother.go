@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"qnsoft/mall_online/controllers/mall_other/taobao"
+	"github.com/qnsoft/mall_online/controllers/mall_other/taobao"
 
 	"github.com/astaxie/beego"
 )

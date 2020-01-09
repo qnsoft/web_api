@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
-	"qnsoft/web_api/models/oauth"
-	"qnsoft/web_api/utils/ErrorHelper"
+	"github.com/qnsoft/web_api/models/oauth"
+	"github.com/qnsoft/utils/ErrorHelper"
 
 	//"../../utils/WebHelper"
 	"github.com/astaxie/beego"

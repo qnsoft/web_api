@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"strconv"
 	"time"
-	"qnsoft/web_api/controllers/OnlinePay/Kuaifutong"
-	"qnsoft/web_api/controllers/Token"
-	"qnsoft/web_api/utils/DateHelper"
-	"qnsoft/web_api/utils/ErrorHelper"
-	"qnsoft/web_api/utils/StringHelper"
+	"github.com/qnsoft/web_api/controllers/OnlinePay/Kuaifutong"
+	"github.com/qnsoft/web_api/controllers/Token"
+	"github.com/qnsoft/utils/DateHelper"
+	"github.com/qnsoft/utils/ErrorHelper"
+	"github.com/qnsoft/utils/StringHelper"
 
 	_ "github.com/mattn/go-adodb"
 )

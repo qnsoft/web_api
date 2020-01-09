@@ -4,9 +4,9 @@ import (
 	"html/template"
 	"net/http"
 
-	"qnsoft/web_api/controllers"
-	jobs "qnsoft/web_api/controllers/Jobs"
-	_ "qnsoft/web_api/routers"
+	"github.com/qnsoft/web_api/controllers"
+	jobs "github.com/qnsoft/web_api/controllers/Jobs"
+	_ "github.com/qnsoft/web_api/routers"
 
 	"github.com/astaxie/beego"
 )

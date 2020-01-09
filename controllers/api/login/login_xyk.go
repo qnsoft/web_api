@@ -1,12 +1,12 @@
 package api
 
 import (
-	"qnsoft/web_api/bll/user"
-	"qnsoft/web_api/controllers/OnlinePay/Kuaifutong"
-	"qnsoft/web_api/controllers/Token"
-	"qnsoft/web_api/models/shop"
-	"qnsoft/web_api/utils/DbHelper"
-	"qnsoft/web_api/utils/ErrorHelper"
+	"github.com/qnsoft/web_api/bll/user"
+	"github.com/qnsoft/web_api/controllers/OnlinePay/Kuaifutong"
+	"github.com/qnsoft/web_api/controllers/Token"
+	"github.com/qnsoft/web_api/models/shop"
+	"github.com/qnsoft/utils/DbHelper"
+	"github.com/qnsoft/utils/ErrorHelper"
 
 	_ "github.com/mattn/go-adodb"
 )

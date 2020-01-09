@@ -3,8 +3,8 @@ package controllers
 import (
 	"fmt"
 
-	"qnsoft/web_api/controllers/Token"
-	"qnsoft/web_api/models/oauth"
+	"github.com/qnsoft/web_api/controllers/Token"
+	"github.com/qnsoft/web_api/models/oauth"
 )
 
 /**

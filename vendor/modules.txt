@@ -1,0 +1,123 @@
+# github.com/BurntSushi/graphics-go v0.0.0-20160129215708-b43f31a4a966
+github.com/BurntSushi/graphics-go/graphics
+github.com/BurntSushi/graphics-go/graphics/convolve
+github.com/BurntSushi/graphics-go/graphics/interp
+# github.com/ajg/form v1.5.1
+github.com/ajg/form
+# github.com/astaxie/beego v1.12.0
+github.com/astaxie/beego
+github.com/astaxie/beego/cache
+github.com/astaxie/beego/cache/memcache
+github.com/astaxie/beego/cache/redis
+github.com/astaxie/beego/config
+github.com/astaxie/beego/context
+github.com/astaxie/beego/context/param
+github.com/astaxie/beego/grace
+github.com/astaxie/beego/logs
+github.com/astaxie/beego/orm
+github.com/astaxie/beego/plugins/cors
+github.com/astaxie/beego/session
+github.com/astaxie/beego/toolbox
+github.com/astaxie/beego/utils
+# github.com/boombuler/barcode v1.0.0
+github.com/boombuler/barcode
+github.com/boombuler/barcode/qr
+github.com/boombuler/barcode/utils
+# github.com/bradfitz/gomemcache v0.0.0-20180710155616-bc664df96737
+github.com/bradfitz/gomemcache/memcache
+# github.com/denisenkom/go-mssqldb v0.0.0-20191128021309-1d7a30a10f73
+github.com/denisenkom/go-mssqldb
+github.com/denisenkom/go-mssqldb/internal/cp
+github.com/denisenkom/go-mssqldb/internal/decimal
+github.com/denisenkom/go-mssqldb/internal/querytext
+# github.com/dgrijalva/jwt-go v3.2.0+incompatible
+github.com/dgrijalva/jwt-go
+# github.com/fogleman/gg v1.2.1-0.20190220221249-0403632d5b90
+github.com/fogleman/gg
+# github.com/go-ole/go-ole v1.2.4
+github.com/go-ole/go-ole
+github.com/go-ole/go-ole/oleutil
+# github.com/go-sql-driver/mysql v1.5.0
+github.com/go-sql-driver/mysql
+# github.com/goinggo/mapstructure v0.0.0-20140717182941-194205d9b4a9
+github.com/goinggo/mapstructure
+# github.com/golang-sql/civil v0.0.0-20190719163853-cb61b32ac6fe
+github.com/golang-sql/civil
+# github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
+github.com/golang/freetype
+github.com/golang/freetype/raster
+github.com/golang/freetype/truetype
+# github.com/gomodule/redigo v2.0.0+incompatible
+github.com/gomodule/redigo/internal
+github.com/gomodule/redigo/redis
+# github.com/lisijie/cron v0.0.0-20151225081149-1c5ac61b9f22
+github.com/lisijie/cron
+# github.com/mattn/go-adodb v0.0.1
+github.com/mattn/go-adodb
+# github.com/mattn/go-sqlite3 v2.0.2+incompatible
+github.com/mattn/go-sqlite3
+# github.com/mojocn/base64Captcha v1.2.2
+github.com/mojocn/base64Captcha
+github.com/mojocn/base64Captcha/store
+# github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646
+github.com/nfnt/resize
+# github.com/qnsoft/mahonia v0.0.0-20171204085438-aa84cd087772
+github.com/qnsoft/mahonia
+# github.com/qnsoft/mall_online v0.0.0-20200108101330-faa1b0be29cf
+github.com/qnsoft/mall_online/controllers/mall_other/taobao
+github.com/qnsoft/mall_online/lib/taobao/models
+github.com/qnsoft/mall_online/lib/taobao/sdks
+# github.com/qnsoft/online_pay v0.0.0-20200108132812-ef3d7ef30541
+github.com/qnsoft/online_pay/routers
+github.com/qnsoft/online_pay/utils/pay/fengfu
+github.com/qnsoft/online_pay/utils/pay/fengfukjzf
+github.com/qnsoft/online_pay/utils/pay/gongyifu
+github.com/qnsoft/online_pay/utils/pay/paytool
+# github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644
+github.com/shiena/ansicolor
+# github.com/wenzhenxi/gorsa v0.0.0-20191231021121-58a13482fb09
+github.com/wenzhenxi/gorsa
+# github.com/wonderivan/logger v1.0.0
+github.com/wonderivan/logger
+# golang.org/x/crypto v0.0.0-20190325154230-a5d413f7728c
+golang.org/x/crypto/acme
+golang.org/x/crypto/acme/autocert
+golang.org/x/crypto/md4
+golang.org/x/crypto/pkcs12
+golang.org/x/crypto/pkcs12/internal/rc2
+# golang.org/x/image v0.0.0-20191214001246-9130b4cfad52
+golang.org/x/image/bmp
+golang.org/x/image/ccitt
+golang.org/x/image/draw
+golang.org/x/image/font
+golang.org/x/image/font/basicfont
+golang.org/x/image/math/f64
+golang.org/x/image/math/fixed
+golang.org/x/image/tiff
+golang.org/x/image/tiff/lzw
+# golang.org/x/net v0.0.0-20190311183353-d8887717615a
+golang.org/x/net/context
+# golang.org/x/text v0.3.1-0.20180807135948-17ff2d5776d2
+golang.org/x/text/encoding
+golang.org/x/text/encoding/internal
+golang.org/x/text/encoding/internal/identifier
+golang.org/x/text/encoding/simplifiedchinese
+golang.org/x/text/transform
+# gonum.org/v1/plot v0.0.0-20191107103940-ca91d9d40d0a
+gonum.org/v1/plot/vg
+gonum.org/v1/plot/vg/fonts
+gonum.org/v1/plot/vg/vgimg
+# gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22
+gopkg.in/mgo.v2
+gopkg.in/mgo.v2/bson
+gopkg.in/mgo.v2/internal/json
+gopkg.in/mgo.v2/internal/sasl
+gopkg.in/mgo.v2/internal/scram
+# gopkg.in/yaml.v2 v2.2.2
+gopkg.in/yaml.v2
+# xorm.io/builder v0.3.6
+xorm.io/builder
+# xorm.io/core v0.7.2
+xorm.io/core
+# xorm.io/xorm v0.8.1
+xorm.io/xorm

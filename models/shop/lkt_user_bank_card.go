@@ -38,4 +38,5 @@ type UserBankCard struct {
 	GyfToken         string    `xorm:"comment('工易付签约token,若为空则未签约') VARCHAR(50)"`
 	FfMerordernumber string    `xorm:"comment('丰付-商户签约订单号') VARCHAR(50)"`
 	FfIssign         string    `xorm:"comment('丰付-商户签约标识') VARCHAR(50)"`
+	FfKjzf           string    `xorm:"comment('丰付-快捷支付签约标识') VARCHAR(50)"`
 }

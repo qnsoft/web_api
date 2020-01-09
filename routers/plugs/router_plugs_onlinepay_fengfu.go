@@ -1,7 +1,7 @@
 package plugs
 
 import (
-	"qnsoft/web_api/plugs/OnlinePay/FengFu"
+	"github.com/qnsoft/web_api/plugs/OnlinePay/FengFu"
 
 	"github.com/astaxie/beego"
 )

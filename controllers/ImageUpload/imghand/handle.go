@@ -13,7 +13,7 @@ import (
 	"strconv"
 	"strings"
 
-	"qnsoft/web_api/controllers/ImageUpload/resize"
+	"github.com/qnsoft/web_api/controllers/ImageUpload/resize"
 )
 
 // 裁剪图像
